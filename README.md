@@ -5,8 +5,14 @@ Analytics & Intelligence Workshop — **Northwest Regional Data Center (NWRDC) �
 Tallahassee, **October 6, 2026**.
 
 You'll build your first Genie space on realistic Florida government data and learn the core
-lesson first-hand: **context is the product.** Start with raw tables, watch Genie guess — then
-add table/column descriptions, instructions, and metric views, and watch the same questions land.
+lesson first-hand: **context is the product.** Modern Genie almost always answers, and
+confidently — on most questions it's right even on raw tables. But on undefined business terms,
+**state-specific rules** (Florida's fiscal year, the 40-day Prompt Payment Act, the $35K
+Category-Two threshold), and **internal code systems** (FLAIR object codes, FDOT districts,
+deobligations, crude vs age-adjusted mortality) it returns a confident, plausible, **wrong**
+answer you can't catch by eye. Start with raw tables, find where Genie is confidently wrong —
+then add table/column descriptions, instructions, and metric views to make the answers
+**governed, consistent, and trustworthy.**
 
 ## ✅ Before you start
 
@@ -53,7 +59,7 @@ already write to, then Run all again.
 
 ## 🧞 Build a Genie space
 
-Point a new Genie space at the three tables in your schema (`fl_gov_demo.spending`,
+Point a new Genie space at the tables in your schema (`fl_gov_demo.spending`,
 `fl_gov_demo.health`, or `fl_gov_demo.transportation`) and start asking the questions from the
 [participant guide](participant-guide.html).
 
@@ -66,7 +72,8 @@ Point a new Genie space at the three tables in your schema (`fl_gov_demo.spendin
 |---|---|
 | `free-edition-setup.html` | How to create a free Databricks workspace before the session |
 | `load_spending.py` · `load_health.py` · `load_transportation.py` | Self-contained dataset loaders (import one, Run All) |
-| `participant-guide.html` | The full participant walkthrough (load → build → ask → add context → dashboards) |
+| `participant-guide.html` | The full participant walkthrough (load → build → ask → add context → metric views → dashboards) |
+| `FACILITATOR_NOTES.md` | **Facilitator answer key** — expected numbers per question, with the raw-Genie-vs-correct contrasts |
 
 ---
 
