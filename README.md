@@ -8,6 +8,16 @@ You'll build your first Genie space on realistic Florida government data and lea
 lesson first-hand: **context is the product.** Start with raw tables, watch Genie guess — then
 add table/column descriptions, instructions, and metric views, and watch the same questions land.
 
+## ✅ Before you start
+
+You'll need access to a Databricks workspace. If you don't already have one, follow the
+**[Free Edition setup guide](free-edition-setup.html)** to create a free, no-cost account and log
+in before the session.
+
+> Like the participant guide, this is an `.html` file — read it rendered via GitHub Pages
+> (`https://davidalarrea.github.io/flgovdataworkshop/free-edition-setup.html`) or this
+> no-setup preview: **[view rendered](https://htmlpreview.github.io/?https://github.com/davidalarrea/flgovdataworkshop/blob/main/free-edition-setup.html)**.
+
 ## 📘 Participant guide
 
 **[Open the participant guide →](participant-guide.html)**
@@ -54,6 +64,7 @@ Point a new Genie space at the three tables in your schema (`fl_gov_demo.spendin
 
 | File | What it is |
 |---|---|
+| `free-edition-setup.html` | How to create a free Databricks workspace before the session |
 | `load_spending.py` · `load_health.py` · `load_transportation.py` | Self-contained dataset loaders (import one, Run All) |
 | `participant-guide.html` | The full participant walkthrough (load → build → ask → add context → dashboards) |
 
