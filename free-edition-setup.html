@@ -1,0 +1,384 @@
+<title>Free Edition Setup Guide</title>
+<meta name="description" content="Before the Florida Government Data Analytics and Intelligence Workshop, set up your own free Databricks workspace in about three minutes.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --ink:#1B3139;          /* Databricks navy */
+    --ink-soft:#3B5561;
+    --lava:#FF3621;         /* Databricks lava red */
+    --lava-deep:#C4300F;
+    --oat:#F9F7F4;
+    --oat-mid:#EEEDE9;
+    --line:#D9D6D0;
+    --white:#FFFFFF;
+    --surface:#FFFFFF;
+    --page:#F9F7F4;
+    --heading:#1B3139;
+    --body:#1B3139;
+    --muted:#3B5561;
+    --faint:#8A8A85;
+    --hero-ink:#FFFFFF;
+    --hero-bg:#1B3139;
+    --card-line:#D9D6D0;
+    --note-bg:#FDE9E5;
+    --maxw:860px;
+    --display:"DM Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  }
+
+  :root:not([data-theme="light"]){
+    @media (prefers-color-scheme: dark){
+      color-scheme: dark;
+      --page:#101c21;
+      --surface:#17272e;
+      --oat:#17272e;
+      --oat-mid:#1d3038;
+      --line:#2c4149;
+      --card-line:#2c4149;
+      --heading:#F4F4F1;
+      --body:#E4E7E6;
+      --muted:#A6B4B9;
+      --faint:#7f8f95;
+      --hero-bg:#0c161a;
+      --lava-deep:#FF6A54;
+      --note-bg:#2a1712;
+    }
+  }
+  :root[data-theme="dark"]{
+    color-scheme: dark;
+    --page:#101c21;
+    --surface:#17272e;
+    --oat:#17272e;
+    --oat-mid:#1d3038;
+    --line:#2c4149;
+    --card-line:#2c4149;
+    --heading:#F4F4F1;
+    --body:#E4E7E6;
+    --muted:#A6B4B9;
+    --faint:#7f8f95;
+    --hero-bg:#0c161a;
+    --lava-deep:#FF6A54;
+    --note-bg:#2a1712;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--page);
+    color:var(--body);
+    font-family:var(--display);
+    font-size:17px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px;}
+  a{color:var(--lava-deep);}
+  h1,h2,h3{margin:0;line-height:1.15;letter-spacing:-0.02em;font-weight:700;color:var(--heading);}
+  h2{text-wrap:balance;}
+
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:12px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    font-weight:500;
+    margin:0;
+  }
+
+  /* ---------- Top bar ---------- */
+  .topbar{background:var(--ink);}
+  .topbar .wrap{
+    display:flex;align-items:center;justify-content:space-between;
+    gap:20px;padding-top:16px;padding-bottom:16px;flex-wrap:wrap;
+  }
+  .hosts{
+    display:flex;align-items:center;gap:12px;
+    color:rgba(255,255,255,.9);
+    font-family:var(--mono);font-size:13px;letter-spacing:.04em;
+  }
+  .hosts .divider{color:rgba(255,255,255,.35);}
+
+  /* ---------- Hero ---------- */
+  .hero{
+    background:var(--hero-bg);
+    color:var(--hero-ink);
+    padding:56px 0 60px;
+  }
+  .hero h1,.hero h2{color:var(--hero-ink);}
+  .hero .eyebrow{color:var(--lava);}
+  .hero h1{
+    font-size:clamp(2rem,5vw,3.1rem);
+    margin:18px 0 0;
+    max-width:20ch;
+  }
+  .hero .lede{
+    margin:20px 0 0;
+    max-width:60ch;
+    font-size:1.1rem;
+    color:rgba(255,255,255,.82);
+  }
+  .badge{
+    display:inline-flex;align-items:baseline;gap:10px;
+    margin-top:28px;
+    background:var(--lava);color:#fff;
+    font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;
+    padding:10px 16px;font-weight:500;
+  }
+  .badge strong{font-weight:500;}
+
+  /* ---------- Sections ---------- */
+  section{padding:52px 0;}
+  .section-head{max-width:60ch;margin-bottom:28px;}
+  .section-head .eyebrow{color:var(--lava-deep);}
+  .section-head h2{font-size:clamp(1.5rem,3vw,2rem);margin:12px 0 0;}
+  .section-head p{margin:14px 0 0;color:var(--muted);}
+  .band-alt{background:var(--oat-mid);}
+
+  /* ---------- Steps (agenda-style rows) ---------- */
+  .steps{border-top:1px solid var(--line);}
+  .step{
+    display:grid;
+    grid-template-columns:56px 1fr;
+    gap:22px;
+    padding:22px 0;
+    border-bottom:1px solid var(--line);
+    align-items:baseline;
+  }
+  .step .num{
+    font-family:var(--mono);
+    font-size:15px;
+    color:var(--lava-deep);
+    font-weight:500;
+    letter-spacing:.02em;
+  }
+  .step h3{font-size:1.12rem;font-weight:500;margin:0;color:var(--heading);}
+  .step p{margin:6px 0 0;color:var(--muted);font-size:.97rem;}
+  .step .link{
+    font-family:var(--mono);font-size:.86rem;word-break:break-all;
+  }
+
+  /* ---------- Checklist card ---------- */
+  .card{
+    background:var(--surface);
+    border:1px solid var(--card-line);
+    padding:clamp(24px,4vw,40px);
+  }
+  .check{
+    display:flex;gap:14px;align-items:flex-start;
+    padding:16px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .check:last-child{border-bottom:0;padding-bottom:0;}
+  .check:first-child{padding-top:0;}
+  .box{
+    flex:none;width:22px;height:22px;margin-top:1px;
+    border:2px solid var(--lava);
+    display:grid;place-items:center;
+    color:var(--lava);font-size:13px;line-height:1;
+  }
+  .check div p{margin:0;color:var(--body);}
+  .check div .sub{margin-top:3px;color:var(--muted);font-size:.9rem;}
+
+  /* ---------- Good-to-know grid ---------- */
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1px;
+    background:var(--line);border:1px solid var(--line);}
+  .cell{background:var(--surface);padding:20px 22px;}
+  .cell dt{
+    font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--lava-deep);margin:0 0 7px;
+  }
+  .cell dd{margin:0;color:var(--body);font-size:.96rem;}
+
+  /* ---------- Callout ---------- */
+  .note{
+    background:var(--note-bg);
+    border-left:3px solid var(--lava);
+    padding:18px 20px;
+    margin-top:20px;
+  }
+  .note .eyebrow{color:var(--lava-deep);margin-bottom:8px;}
+  .note p{margin:0;color:var(--body);font-size:.96rem;}
+  .note p + p{margin-top:8px;}
+
+  .rule{width:56px;height:4px;background:var(--lava);border:0;margin:0 0 4px;}
+
+  /* ---------- Footer ---------- */
+  footer{background:var(--ink);color:rgba(255,255,255,.7);padding:40px 0;font-size:.9rem;}
+  footer .wrap{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;}
+  footer strong{color:#fff;}
+  footer .contact{font-family:var(--mono);font-size:12.5px;letter-spacing:.03em;}
+  footer .contact a{color:#fff;}
+
+  @media (max-width:560px){
+    .step{grid-template-columns:1fr;gap:6px;}
+    section{padding:40px 0;}
+    .hero{padding:44px 0 48px;}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{transition:none!important;scroll-behavior:auto!important;}
+  }
+  @media print{
+    body{background:#fff;font-size:12px;}
+    .hero{background:var(--ink)!important;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+    section{padding:24px 0;page-break-inside:avoid;}
+    footer{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  }
+</style>
+
+<div class="topbar">
+  <div class="wrap">
+    <div class="hosts">
+      <span>NWRDC</span>
+      <span class="divider">&times;</span>
+      <span>Databricks</span>
+    </div>
+    <div class="hosts"><span>October 6, 2026 &nbsp;&middot;&nbsp; Tallahassee</span></div>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="wrap">
+    <p class="eyebrow">Before you arrive &middot; ~3 minutes</p>
+    <h1>Set up your workshop workspace</h1>
+    <p class="lede">
+      For our hands-on session you'll build in your own free Databricks workspace.
+      Everyone creates one ahead of time using <strong>Databricks Free Edition</strong> &mdash;
+      no cost, no cloud account, no credit card. Please finish this before October 6 so we
+      can start building on time.
+    </p>
+    <span class="badge"><strong>Do this before the workshop</strong></span>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <hr class="rule">
+      <p class="eyebrow">The setup</p>
+      <h2>Five steps to your free workspace</h2>
+      <p>Databricks creates and manages the workspace for you. There's nothing to configure and nothing to wait on &mdash; each person gets their own.</p>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <span class="num">01</span>
+        <div>
+          <h3>Open the sign-up page</h3>
+          <p>Go to the Databricks Free Edition sign-up page:</p>
+          <p class="link">databricks.com/learn/free-edition</p>
+        </div>
+      </div>
+      <div class="step">
+        <span class="num">02</span>
+        <div>
+          <h3>Choose how you sign in</h3>
+          <p>Sign up with a <strong>Google account</strong> (fastest &mdash; one click) or with <strong>any email address</strong>, which sends you a one-time passcode.</p>
+        </div>
+      </div>
+      <div class="step">
+        <span class="num">03</span>
+        <div>
+          <h3>Verify your account</h3>
+          <p>Approve the Google prompt, or enter the one-time passcode emailed to you. Free Edition doesn't support corporate SSO &mdash; email or Google only.</p>
+        </div>
+      </div>
+      <div class="step">
+        <span class="num">04</span>
+        <div>
+          <h3>Let Databricks build your workspace</h3>
+          <p>It's created automatically on serverless compute. There are no clusters to size and no settings to pick.</p>
+        </div>
+      </div>
+      <div class="step">
+        <span class="num">05</span>
+        <div>
+          <h3>You land in your workspace</h3>
+          <p>That's it &mdash; you're in and ready. Keep the login you used; you'll sign back in with it on the day.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band-alt">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Confirm it works</p>
+      <h2>Two checks before the day</h2>
+      <p>A couple of minutes now saves us setup time in the room. If either check fails, message your workshop host (below) and we'll sort it out beforehand.</p>
+    </div>
+    <div class="card">
+      <div class="check">
+        <span class="box">&check;</span>
+        <div>
+          <p>You can sign in and see the Databricks workspace home page.</p>
+          <p class="sub">Use the same email or Google account you'll bring on October 6.</p>
+        </div>
+      </div>
+      <div class="check">
+        <span class="box">&check;</span>
+        <div>
+          <p>You can open a notebook and run a cell.</p>
+          <p class="sub">Create a notebook, type <span style="font-family:var(--mono);font-size:.9em;">SELECT 1</span> or <span style="font-family:var(--mono);font-size:.9em;">print("hello")</span>, and run it. If it returns a result, you're set.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Good to know</p>
+      <h2>A few things worth knowing</h2>
+    </div>
+    <dl class="grid">
+      <div class="cell">
+        <dt>Which email</dt>
+        <dd>Use a personal email or one that can receive an external one-time passcode. Some government mail systems block those &mdash; a personal Gmail is the easy fallback and enables one-click sign-in.</dd>
+      </div>
+      <div class="cell">
+        <dt>One per account</dt>
+        <dd>Free Edition gives you a single workspace, so you only need to sign up once.</dd>
+      </div>
+      <div class="cell">
+        <dt>Languages</dt>
+        <dd>Python and SQL are fully supported. R and Scala are not available on Free Edition &mdash; we won't need them.</dd>
+      </div>
+      <div class="cell">
+        <dt>Compute</dt>
+        <dd>Everything runs on serverless, so there are no clusters to start or manage.</dd>
+      </div>
+      <div class="cell">
+        <dt>What you can build</dt>
+        <dd>Notebooks, SQL, Genie Spaces, and AI/BI dashboards &mdash; exactly what we'll do together.</dd>
+      </div>
+      <div class="cell">
+        <dt>Optional: LinkedIn</dt>
+        <dd>Verifying LinkedIn in-product unlocks limited GPU and broader internet access. Not needed for our session unless your host says otherwise.</dd>
+      </div>
+    </dl>
+
+    <div class="note">
+      <p class="eyebrow">One ground rule</p>
+      <p>Free Edition is for learning and non-commercial use. Please keep exercises on the sample data we provide &mdash; don't load your agency's production or sensitive data into it.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <strong>Florida Government Data Analytics and Intelligence Workshop</strong><br>
+      Hosted by the Northwest Regional Data Center and Databricks.
+    </div>
+    <div class="contact">
+      Trouble signing up?<br>
+      david.larrea@databricks.com
+    </div>
+  </div>
+</footer>
