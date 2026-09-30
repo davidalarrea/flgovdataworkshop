@@ -92,8 +92,8 @@
 
   /* ---------- Numbered steps ---------- */
   ol.steps{list-style:none;counter-reset:st;padding:0;margin:0;display:flex;flex-direction:column;gap:10px;}
-  ol.steps li{counter-increment:st;position:relative;padding:13px 16px 13px 54px;background:var(--white);border:1px solid var(--line);font-size:.97rem;color:var(--ink-soft);}
-  ol.steps li::before{content:counter(st);position:absolute;left:14px;top:12px;width:26px;height:26px;background:var(--lava);color:#fff;font-family:var(--mono);font-weight:500;font-size:12px;display:flex;align-items:center;justify-content:center;}
+  ol.steps > li{counter-increment:st;position:relative;padding:13px 16px 13px 54px;background:var(--white);border:1px solid var(--line);font-size:.97rem;color:var(--ink-soft);}
+  ol.steps > li::before{content:counter(st);position:absolute;left:14px;top:12px;width:26px;height:26px;background:var(--lava);color:#fff;font-family:var(--mono);font-weight:500;font-size:12px;display:flex;align-items:center;justify-content:center;}
   ol.steps li strong{color:var(--ink);}
   ol.steps li ul{margin:8px 0 0;padding-left:18px;}
   ol.steps li ul li{background:none;border:0;padding:2px 0;position:static;}
@@ -115,6 +115,11 @@
   .stat.ok{background:#E6F2EC;color:var(--ok);border-color:#BEDDCC;}
   .stat.warn{background:#FBF0DC;color:var(--warn);border-color:#EAD3A6;}
   .stat.bad{background:var(--lava-wash);color:var(--bad);border-color:#F3C9C0;}
+  .qid{font-family:var(--mono);font-size:11px;color:var(--muted);margin-right:8px;}
+  .ans{display:block;margin-top:5px;font-size:.9rem;color:var(--ink-soft);}
+  .ans b{font-family:var(--mono);font-size:9.5px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--ok);margin-right:6px;}
+  .ans.raw b{color:var(--bad);}
+  @media print{ .ans{break-inside:avoid;} }
 
   /* ---------- Table ---------- */
   .matrix-wrap{margin-top:12px;overflow-x:auto;border:1px solid var(--line);background:var(--white);}
@@ -157,6 +162,7 @@
   pre{font-family:var(--mono);font-size:13px;line-height:1.55;background:var(--oat);border:1px solid var(--line);border-left:3px solid var(--lava);padding:14px 16px;margin:16px 0 0;overflow-x:auto;color:var(--ink);}
   pre code{background:none;padding:0;color:inherit;font-size:inherit;}
   .band-alt pre{background:var(--white);}
+  pre.wrap-pre{white-space:pre-wrap;word-break:break-word;}
 
   /* ---------- KPI row ---------- */
   .kpis{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;}
@@ -198,7 +204,7 @@
     <p class="eyebrow">Participant guide · Genie hands-on</p>
     <h1>Florida Government Data Workshop</h1>
     <hr class="rule">
-    <p class="lede">Everything for the hands-on portion in one place — load a dataset, build your first Genie space, ask a set of questions, then add the context that makes the failing ones work. The lesson you'll feel first-hand: <strong>context is the product</strong>.</p>
+    <p class="lede">Everything for the hands-on portion in one place — load a dataset, build your first Genie space, ask a set of questions, then add the context that turns Genie's confident-but-wrong answers into governed, correct ones. The lesson you'll feel first-hand: <strong>context is the product</strong>.</p>
 
     <dl class="facts">
       <div class="fact"><dt>When</dt><dd>Tue Oct 6, 2026 · 12:30–4:30 PM ET</dd></div>
@@ -275,7 +281,7 @@
         <thead><tr><th style="width:55%">If you want…</th><th style="width:45%">Import this notebook</th></tr></thead>
         <tbody>
           <tr><td><span class="mx-ctrl">Government spending</span><span class="mx-sub">contracts, payments, vendors</span></td><td><code>load_spending.py</code></td></tr>
-          <tr><td><span class="mx-ctrl">Health</span><span class="mx-sub">county births/deaths, population, facilities</span></td><td><code>load_health.py</code></td></tr>
+          <tr><td><span class="mx-ctrl">Health</span><span class="mx-sub">county births/deaths, population, deaths by age, facilities</span></td><td><code>load_health.py</code></td></tr>
           <tr><td><span class="mx-ctrl">FDOT / transportation</span><span class="mx-sub">projects, funding, change orders</span></td><td><code>load_transportation.py</code></td></tr>
         </tbody>
       </table>
@@ -322,7 +328,7 @@
           <tr><td><span class="mx-ctrl">Column description</span></td><td>Internal codes Genie can't decode (FLAIR object codes, FDOT districts, fund groupings)</td><td>Column comment (Catalog Explorer) or the space's Instructions / Knowledge</td></tr>
           <tr><td><span class="mx-ctrl">Table description</span></td><td>What a table's grain / rows really mean (e.g. deobligation rows that must be subtracted)</td><td>Table comment (Catalog Explorer)</td></tr>
           <tr><td><span class="mx-ctrl">Genie instruction</span></td><td>Undefined business rules Genie guesses wrong (Florida fiscal year, the 40-day Prompt Payment rule, “duplicate”, the $35K split threshold, “approved only”)</td><td>Genie space → <strong>Instructions</strong> (plain-English rules; example SQL)</td></tr>
-          <tr><td><span class="mx-ctrl">Metric view <span class="chip lava" style="margin-left:4px;">governed</span></span></td><td>Rates &amp; ratios that must compute one agreed way (age-adjusted mortality, net obligations, burn rate)</td><td>Unity Catalog <strong>Metric View</strong> — define the measure once, then add it to the space (paste-ready SQL in the <a href="#metrics">Metric views appendix</a>)</td></tr>
+          <tr><td><span class="mx-ctrl">Metric view <span class="chip lava" style="margin-left:4px;">governed</span></span></td><td>KPIs that must compute one agreed way (prompt-payment compliance by Florida fiscal year, age-adjusted mortality, net obligations)</td><td>Unity Catalog <strong>Metric View</strong> — define the measure once, then add it to the space (paste-ready SQL in the <a href="#metrics">Metric views appendix</a>)</td></tr>
         </tbody>
       </table>
     </div>
@@ -347,7 +353,6 @@
       <h2>Spending</h2>
       <p>Catalog <code>fl_gov_demo.spending</code> · join keys <code>vendor_id</code>, <code>contract_id</code> · grain vendor → contract → many payments.</p>
     </div>
-
     <div class="matrix-wrap">
       <table class="mx">
         <thead><tr><th style="width:22%">Table</th><th style="width:14%">Rows</th><th style="width:64%">Columns</th></tr></thead>
@@ -358,50 +363,101 @@
         </tbody>
       </table>
     </div>
-    <div class="note tip"><span class="nl">Audit layer</span><div>Planted in known quantities: duplicate payments, threshold-splitting, round-dollar &amp; weekend payment dates, late payments (FL Prompt Payment Act), and vendors sharing an address / missing a TIN — the raw material for the “define the rule with an instruction” exercises.</div></div>
-
+    <div class="note tip"><span class="nl">Audit layer</span><div>Planted in known quantities: duplicate payments, threshold-splitting, round-dollar &amp; weekend payments, late payments (FL Prompt Payment Act), and vendors sharing an address / missing a TIN — the raw material for the “define the rule” exercises.</div></div>
     <div class="lab-body">
-      <p class="lab-sub">Round 1 · warm-up (single table)</p>
+      <p class="lab-sub">Round 1 · warm-up</p>
       <ul class="qlist">
-        <li><span class="stat ok">Correct</span>How many vendors are registered?</li>
-        <li><span class="stat ok">Correct</span>How many contracts are there in total?</li>
-        <li><span class="stat ok">Correct</span>What is the total amount of all payments?</li>
-        <li><span class="stat ok">Correct</span>How much did each agency spend? <span class="mx-sub" style="display:inline">— Genie joins payments→contracts and uses <code>pmt_amt</code> correctly</span></li>
-        <li><span class="stat warn">Decode</span>How many active contracts do we have? <span class="mx-sub" style="display:inline">— Genie <em>guesses</em> <code>status_cd='02'</code> = active (right this time, but a guess you can't verify)</span></li>
+        <li><span class="stat ok">Correct</span><span class="qid">S01</span>How many vendors are registered?<span class="ans"><b>Answer</b> 200 vendors</span></li>
+        <li><span class="stat ok">Correct</span><span class="qid">S02</span>How many contracts are there in total?<span class="ans"><b>Answer</b> 1,196 contracts</span></li>
+        <li><span class="stat ok">Correct</span><span class="qid">S03</span>What is the total amount of all payments across all years?<span class="ans"><b>Answer</b> $475,261,796</span></li>
+        <li><span class="stat ok">Correct</span><span class="qid">S04</span>How much did each agency spend in total across all years, based on payments made?<span class="ans"><b>Answer</b> DOT $71.5M · DOC $70.8M · DOH $69.5M · DMS $68.1M · DCF $67.9M · DEP $67.8M · DOR $59.6M (total $475.3M)</span></li>
+        <li><span class="stat warn">Decode</span><span class="qid">S05</span>How many active contracts do we have?<span class="ans"><b>Answer</b> 631 (<code>contracts.status_cd = '02'</code>)</span><span class="ans raw"><b>Raw Genie</b> 631 — right, but Genie guessed '02' means active from date patterns; nothing in the data says so</span></li>
       </ul>
       <p class="lab-sub">Round 1 · aggregation &amp; ranking</p>
       <ul class="qlist">
-        <li><span class="stat ok">Correct</span>Which agencies have the highest total contract value?</li>
-        <li><span class="stat ok">Correct</span>Who are the top 10 vendors by total payments?</li>
-        <li><span class="stat ok">Correct</span>How much was awarded competitively vs. sole-source? <span class="mx-sub" style="display:inline">— Genie knows ITB/RFP/SS/ST</span></li>
-        <li><span class="stat bad">Wrong</span>How much did we spend on contracted services? <span class="mx-sub" style="display:inline">— guesses <code>cat_cd='CONSTR'</code> ($99.2M) instead of FLAIR object code <code>342</code> ($82.6M)</span></li>
-        <li><span class="stat bad">Wrong</span>What is total spending this fiscal year? <span class="mx-sub" style="display:inline">— uses the <em>federal</em> FY (Oct–Sep, $91.5M), not Florida's Jul–Jun ($77.6M)</span></li>
+        <li><span class="stat ok">Correct</span><span class="qid">S06</span>Which three agencies have the highest total contract value (sum of contract amounts)?<span class="ans"><b>Answer</b> DEP $128.6M · DOC $127.0M · DOH $126.4M</span></li>
+        <li><span class="stat ok">Correct</span><span class="qid">S07</span>Who are the top 10 vendors by total payments across all years?<span class="ans"><b>Answer</b> #1 Heron Facilities Services Foundation $9.94M · #2 Beacon Construction Corp $7.27M · #3 Heron Technologies LLC $7.17M … #10 Magnolia Medical Supply LLC $5.85M</span></li>
+        <li><span class="stat ok">Correct</span><span class="qid">S08</span>Across all contracts, how much contract value was awarded through competitive solicitation versus sole source?<span class="ans"><b>Answer</b> Competitive (ITB + RFP) $642.7M · sole source $134.5M · state term contracts $69.2M</span></li>
+        <li><span class="stat bad">Wrong</span><span class="qid">S09</span>How much did we spend on contractual services across all years?<span class="ans"><b>Answer</b> $82,653,764 — FLAIR object code 342 (Contractual Services)</span><span class="ans raw"><b>Raw Genie</b> $99.2M — treats contract category <code>CONSTR</code> (construction) as contractual services</span></li>
+        <li><span class="stat bad">Wrong</span><span class="qid">S10</span>What was total spending in fiscal year 2026?<span class="ans"><b>Answer</b> $77,576,683 — Florida FY2026 = Jul 1, 2025 – Jun 30, 2026</span><span class="ans raw"><b>Raw Genie</b> $91.5M — applies the federal fiscal year (Oct 1 – Sep 30)</span></li>
       </ul>
       <p class="lab-sub">Round 1 · cross-table / analytical</p>
       <ul class="qlist">
-        <li><span class="stat bad">Wrong</span>How much came from state funds vs. federal funds? <span class="mx-sub" style="display:inline">— splits GR/TF/FED three ways instead of grouping GR+TF as state</span></li>
-        <li><span class="stat bad">Wrong</span>How many payments were paid late? <span class="mx-sub" style="display:inline">— assumes Net-30 (4,413), not the FL 40-day Prompt Payment rule (122)</span></li>
-        <li><span class="stat bad">Wrong</span>Show potential duplicate payments. <span class="mx-sub" style="display:inline">— invents its own rule; the planted rule finds 15</span></li>
-        <li><span class="stat bad">Wrong</span>Which vendors got multiple contracts just under the approval threshold? (split purchasing) <span class="mx-sub" style="display:inline">— guesses $100K/$250K/$500K (19 vendors), not the $35K Category-Two line (4)</span></li>
-        <li><span class="stat ok">Correct</span>Which payments were made on weekends?</li>
+        <li><span class="stat ok">Correct</span><span class="qid">S11</span>How much spend came from state funds vs. federal funds for all years?<span class="ans"><b>Answer</b> State (GR + TF) $307,676,737 · federal (FED) $167,585,060</span></li>
+        <li><span class="stat bad">Wrong</span><span class="qid">S12</span>How many payments across all years were paid late?<span class="ans"><b>Answer</b> 122 — paid more than 40 days after invoice (FL Prompt Payment Act, s.215.422)</span><span class="ans raw"><b>Raw Genie</b> 4,413 — assumes Net-30</span></li>
+        <li><span class="stat bad">Wrong</span><span class="qid">S13</span>How many potential duplicate payments are there across all years?<span class="ans"><b>Answer</b> 15 — same vendor and amount, different payment, within 3 days</span><span class="ans raw"><b>Raw Genie</b> 361 — matches repeated invoice numbers, even across different vendors</span></li>
+        <li><span class="stat bad">Wrong</span><span class="qid">S14</span>Which vendors show a split-purchasing pattern, receiving multiple contracts just under the approval threshold within a short period?<span class="ans"><b>Answer</b> 4 vendors — Citrus Medical Supply Corp, Mangrove Systems LLC, Panhandle Industries Corp, Sunshine Partners LLC</span><span class="ans raw"><b>Raw Genie</b> 52 vendors — invents its own thresholds and a 90-day window</span></li>
+        <li><span class="stat ok">Correct</span><span class="qid">S15</span>How many payments across all years were made on a weekend?<span class="ans"><b>Answer</b> 56 payments</span></li>
+        <li><span class="stat bad">Wrong</span><span class="qid">S16</span>What was our prompt-payment compliance rate (share of payments paid on time) by agency in fiscal year 2026?<span class="ans"><b>Answer</b> 99.5% overall (3,049 payments) — DCF 99.1% · DEP 99.4% · DMS 99.5% · DOC 99.8% · DOH 99.4% · DOR 99.5% · DOT 99.5%</span><span class="ans raw"><b>Raw Genie</b> 76.1% — Net-30 over the federal fiscal year</span></li>
       </ul>
-
       <p class="lab-sub">Round 2 · add context to fix the misses</p>
       <div class="matrix-wrap">
         <table class="mx">
-          <thead><tr><th style="width:24%">Question</th><th style="width:30%">What Genie does raw → correct</th><th style="width:46%">Context to add</th></tr></thead>
+          <thead><tr><th style="width:30%">Question</th><th style="width:16%">Context type</th><th style="width:54%">Exactly what to add</th></tr></thead>
           <tbody>
-            <tr><td>“contracted services” &amp; other object-code spend</td><td>Guesses <code>cat_cd='CONSTR'</code> ($99.2M) → FLAIR object code <code>obj_cd='342'</code> (<strong>$82.6M</strong>)</td><td><strong>Column description</strong> on <code>obj_cd</code> (FLAIR object codes): <code>111</code>=Salaries &amp; Benefits, <code>261</code>=Operating Expenses, <code>342</code>=Contractual Services, <code>521</code>=Operating Capital Outlay, <code>714</code>=Debt Service, <code>811</code>=Aid to Local Governments</td></tr>
-            <tr><td>“state vs federal funds”</td><td>Splits GR/TF/FED three ways → state=GR+TF (<strong>$307.7M</strong>), federal=FED (<strong>$167.6M</strong>)</td><td><strong>Column description</strong> on <code>fund_src</code>: <code>GR</code>=General Revenue (state), <code>TF</code>=Trust Fund (state), <code>FED</code>=Federal. “State funds = GR + TF.”</td></tr>
-            <tr><td>“this fiscal year”</td><td>Uses federal FY Oct–Sep ($91.5M) → Florida FY Jul–Jun (<strong>$77.6M</strong>)</td><td><strong>Instruction:</strong> “Florida's fiscal year runs Jul 1–Jun 30; FY2026 = 2025-07-01 to 2026-06-30. Derive fiscal year from <code>pmt_dt</code>.”</td></tr>
-            <tr><td>“late payments”</td><td>Assumes Net-30, &gt;30 days (4,413) → FL Prompt Payment Act, &gt;40 days (<strong>122</strong>)</td><td><strong>Instruction:</strong> “Under the FL Prompt Payment Act (s.215.422) a payment is late if <code>pmt_dt</code> is more than 40 days after <code>invoice_dt</code>.”</td></tr>
-            <tr><td>Duplicate payments</td><td>Invents its own rule → planted rule finds <strong>15</strong></td><td><strong>Instruction:</strong> “A potential duplicate = same <code>vendor_id</code> and <code>pmt_amt</code> within 3 days, different <code>pmt_id</code>.”</td></tr>
-            <tr><td>Split purchasing</td><td>Guesses $100K/$250K/$500K (19 vendors) → $35K threshold (<strong>4</strong>)</td><td><strong>Instruction:</strong> “Split purchase = ≥3 contracts to the same <code>vendor_id</code>, each <code>contract_amt</code> under $35,000 (the Category-Two competitive-solicitation threshold), within 30 days.”</td></tr>
-            <tr><td>“active contracts” (and code readability)</td><td>Guesses <code>'02'</code>=active (right, but unverifiable) → make it explicit</td><td><strong>Column description</strong> on <code>status_cd</code>: <code>02</code>=active, <code>03</code>=closed, <code>07</code>=cancelled, <code>09</code>=pending. Also decode <code>agency_cd</code> (DOT=Transportation, DOC=Corrections, DCF=Children &amp; Families, DOH=Health, DEP=Environmental Protection, DMS=Management Services, DOR=Revenue), <code>cat_cd</code> (IT, PROF_SVC=Professional Services, CONSTR=Construction, MED=Medical, MAINT=Maintenance), <code>proc_mthd</code> (ITB=Invitation to Bid, RFP=Request for Proposals, SS=Sole Source, ST=State Term).</td></tr>
+            <tr><td><span class="mx-ctrl">S05</span>How many active contracts do we have?</td><td>Column description</td><td><code>contracts.status_cd</code>: 02=Active, 03=Closed, 07=Cancelled, 09=Pending.</td></tr>
+            <tr><td><span class="mx-ctrl">S09</span>How much did we spend on contractual services across all years?</td><td>Column description</td><td><code>payments.obj_cd</code>: FLAIR object codes — 111=Salaries &amp; Benefits, 261=Operating Expenses, <strong>342=Contractual Services</strong>, 521=Operating Capital Outlay, 714=Debt Service, 811=Aid to Local Governments. Also note on <code>contracts.cat_cd</code> that it is a commodity category, not an accounting class.</td></tr>
+            <tr><td><span class="mx-ctrl">S10</span>What was total spending in fiscal year 2026?</td><td>Instruction or metric view</td><td>Instruction: the Florida fiscal year runs Jul 1 – Jun 30 and is named for the year it ends; derive it from <code>payments.pmt_dt</code>. The <code>payment_metrics.fiscal_year</code> dimension pins the same rule.</td></tr>
+            <tr><td><span class="mx-ctrl">S12</span>How many payments across all years were paid late?</td><td>Instruction or metric view</td><td>Instruction: a payment is late when <code>payments.pmt_dt</code> is more than 40 days after <code>payments.invoice_dt</code>. The <code>payment_metrics.late_payments</code> measure pins the same rule.</td></tr>
+            <tr><td><span class="mx-ctrl">S13</span>How many potential duplicate payments are there across all years?</td><td>Instruction</td><td>Potential duplicate = same <code>payments.vendor_id</code> and <code>payments.pmt_amt</code>, different <code>payments.pmt_id</code>, <code>payments.pmt_dt</code> within 3 days.</td></tr>
+            <tr><td><span class="mx-ctrl">S14</span>Which vendors show a split-purchasing pattern, receiving multiple contracts just under the approval threshold within a short period?</td><td>Instruction</td><td>Split purchasing = 3+ contracts to the same <code>contracts.vendor_id</code>, each <code>contracts.contract_amt</code> under $35,000 (Category Two), <code>contracts.exec_dt</code> within 30 days.</td></tr>
+            <tr><td><span class="mx-ctrl">S16</span>What was our prompt-payment compliance rate (share of payments paid on time) by agency in fiscal year 2026?</td><td>Metric view</td><td><code>payment_metrics.prompt_pay_compliance_pct</code> by <code>agency</code>, filtered to <code>fiscal_year = 2026</code>. The 40-day rule and the Florida fiscal year both live in the view.</td></tr>
           </tbody>
         </table>
       </div>
-      <div class="note flag"><span class="nl">Takeaway</span><div>Spending needs <strong>no metric view</strong> — column descriptions and Genie instructions do it all. The striking part: every “Wrong” answer above <em>looked</em> authoritative. Genie didn't fail — it confidently applied the wrong rule (federal FY, Net-30, its own duplicate definition). Context is what makes the number trustworthy.</div></div>
+      <p class="lab-sub">Round 2 · step 1 — column &amp; table descriptions</p>
+      <p>Set these in <strong>Catalog Explorer</strong> (table → column → edit description), or paste the SQL below. Catalog comments flow into chart labels and every tool — not just Genie.</p>
+      <div class="matrix-wrap">
+        <table class="mx">
+          <thead><tr><th style="width:30%">Table · column</th><th style="width:70%">Description to add</th></tr></thead>
+          <tbody>
+            <tr><td><code>spending.contracts</code> <span class="mx-sub">table description</span></td><td>One row per contract. contract_amt is the not-to-exceed ceiling, not money spent; actual spend is in payments.</td></tr>
+            <tr><td><code>spending.contracts.agency_cd</code></td><td>Agency code. DOT=Transportation, DOC=Corrections, DCF=Children &amp; Families, DOH=Health, DEP=Environmental Protection, DMS=Management Services, DOR=Revenue.</td></tr>
+            <tr><td><code>spending.contracts.status_cd</code></td><td>Contract status. 02=Active, 03=Closed, 07=Cancelled, 09=Pending.</td></tr>
+            <tr><td><code>spending.contracts.cat_cd</code></td><td>Commodity/service category of the contract. IT=Information Technology, PROF_SVC=Professional Services, CONSTR=Construction, MED=Medical, MAINT=Maintenance. Not an accounting classification; for expenditure type use payments.obj_cd.</td></tr>
+            <tr><td><code>spending.contracts.proc_mthd</code></td><td>Procurement method. ITB=Invitation to Bid (competitive), RFP=Request for Proposals (competitive), SS=Sole Source (non-competitive), ST=State Term Contract.</td></tr>
+            <tr><td><code>spending.contracts.contract_amt</code></td><td>Not-to-exceed contract ceiling (authorized maximum). NOT actual spend; use payments.pmt_amt for money spent.</td></tr>
+            <tr><td><code>spending.payments</code> <span class="mx-sub">table description</span></td><td>One row per payment (cash disbursed to a vendor). Use pmt_amt for all spend questions.</td></tr>
+            <tr><td><code>spending.payments.obj_cd</code></td><td>FLAIR expenditure object code. 111=Salaries &amp; Benefits, 261=Operating Expenses, 342=Contractual Services, 521=Operating Capital Outlay, 714=Debt Service, 811=Aid to Local Governments.</td></tr>
+            <tr><td><code>spending.payments.fund_src</code></td><td>Funding source. GR=General Revenue (state), TF=Trust Fund (state), FED=Federal. State funds = GR + TF.</td></tr>
+            <tr><td><code>spending.payments.invoice_dt</code></td><td>Date the vendor invoice was received. Under the Florida Prompt Payment Act (s.215.422) a payment is late if pmt_dt is more than 40 days after invoice_dt; on time = 40 days or fewer (not Net-30).</td></tr>
+            <tr><td><code>spending.payments.pmt_amt</code></td><td>Actual cash disbursed to the vendor. Use this for spend.</td></tr>
+          </tbody>
+        </table>
+      </div>
+<pre class="wrap-pre"><code>-- Round 2 · paste into the SQL editor (catalog fl_gov_demo; change it if you used another)
+COMMENT ON TABLE fl_gov_demo.spending.contracts IS
+  'One row per contract. contract_amt is the not-to-exceed ceiling, not money spent; actual spend is in payments.';
+ALTER TABLE fl_gov_demo.spending.contracts ALTER COLUMN agency_cd COMMENT
+  'Agency code. DOT=Transportation, DOC=Corrections, DCF=Children &amp; Families, DOH=Health, DEP=Environmental Protection, DMS=Management Services, DOR=Revenue.';
+ALTER TABLE fl_gov_demo.spending.contracts ALTER COLUMN status_cd COMMENT
+  'Contract status. 02=Active, 03=Closed, 07=Cancelled, 09=Pending.';
+ALTER TABLE fl_gov_demo.spending.contracts ALTER COLUMN cat_cd COMMENT
+  'Commodity/service category of the contract. IT=Information Technology, PROF_SVC=Professional Services, CONSTR=Construction, MED=Medical, MAINT=Maintenance. Not an accounting classification; for expenditure type use payments.obj_cd.';
+ALTER TABLE fl_gov_demo.spending.contracts ALTER COLUMN proc_mthd COMMENT
+  'Procurement method. ITB=Invitation to Bid (competitive), RFP=Request for Proposals (competitive), SS=Sole Source (non-competitive), ST=State Term Contract.';
+ALTER TABLE fl_gov_demo.spending.contracts ALTER COLUMN contract_amt COMMENT
+  'Not-to-exceed contract ceiling (authorized maximum). NOT actual spend; use payments.pmt_amt for money spent.';
+COMMENT ON TABLE fl_gov_demo.spending.payments IS
+  'One row per payment (cash disbursed to a vendor). Use pmt_amt for all spend questions.';
+ALTER TABLE fl_gov_demo.spending.payments ALTER COLUMN obj_cd COMMENT
+  'FLAIR expenditure object code. 111=Salaries &amp; Benefits, 261=Operating Expenses, 342=Contractual Services, 521=Operating Capital Outlay, 714=Debt Service, 811=Aid to Local Governments.';
+ALTER TABLE fl_gov_demo.spending.payments ALTER COLUMN fund_src COMMENT
+  'Funding source. GR=General Revenue (state), TF=Trust Fund (state), FED=Federal. State funds = GR + TF.';
+ALTER TABLE fl_gov_demo.spending.payments ALTER COLUMN invoice_dt COMMENT
+  'Date the vendor invoice was received. Under the Florida Prompt Payment Act (s.215.422) a payment is late if pmt_dt is more than 40 days after invoice_dt; on time = 40 days or fewer (not Net-30).';
+ALTER TABLE fl_gov_demo.spending.payments ALTER COLUMN pmt_amt COMMENT
+  'Actual cash disbursed to the vendor. Use this for spend.';</code></pre>
+      <p class="lab-sub">Round 2 · step 2 — Genie instructions</p>
+      <p>Genie space → <strong>Configure → Instructions</strong> → paste as general instructions:</p>
+<pre class="wrap-pre"><code>- Fiscal year means the Florida state fiscal year, July 1 to June 30, named for the year it ends. FY2026 = 2025-07-01 through 2026-06-30. Derive it from payments.pmt_dt.
+- A payment is late under the Florida Prompt Payment Act (s.215.422) when payments.pmt_dt is more than 40 days after payments.invoice_dt. On time = 40 days or fewer.
+- A potential duplicate payment is two payments with the same vendor_id and pmt_amt, different pmt_id, made within 3 days of each other.
+- Split purchasing = 3 or more contracts to the same vendor_id, each with contracts.contract_amt under $35,000 (the Category Two threshold), executed within 30 days of each other.
+- Spend always means payments.pmt_amt, never contracts.contract_amt.</code></pre>
+      <p class="lab-sub">Round 2 · step 3 — metric view</p>
+      <p>Create <code>fl_gov_demo.spending.payment_metrics</code> (paste-ready SQL in the <a href="#metrics-spending">metric-views appendix</a>), then add it to the space as a data source.</p>
+      <div class="note flag"><span class="nl">Takeaway</span><div>Every “Wrong” answer above <em>looked</em> authoritative — Genie confidently applied the federal fiscal year, Net-30, and its own duplicate rule. Three layers fix it: <strong>column descriptions</strong> (decode the codes), <strong>instructions</strong> (the rules), and one <strong>metric view</strong> that pins the fiscal year, the 40-day rule, and the state/federal grouping so every answer — and every dashboard tile — agrees.</div></div>
     </div>
   </div>
 </section>
@@ -412,71 +468,89 @@
     <div class="section-head">
       <p class="eyebrow">Dataset 2 · Governance &amp; metric views</p>
       <h2>Health</h2>
-      <p>Catalog <code>fl_gov_demo.health</code> · join key <code>county_nm + yr + age_group</code> · readable columns, no cryptic codes. Here Genie nails the arithmetic — the lesson is <strong>governance</strong>: a <em>crude</em> rate is a real number, but the <em>wrong</em> one for ranking health outcomes.</p>
+      <p>Catalog <code>fl_gov_demo.health</code> · join key <code>county_nm + yr</code> (+ <code>age_group</code>) · readable columns, no cryptic codes. Genie nails the arithmetic here — the lesson is <strong>governance</strong>: a crude or unsuppressed rate is a real number, but the wrong one for ranking health outcomes.</p>
     </div>
-
     <div class="matrix-wrap">
       <table class="mx">
         <thead><tr><th style="width:22%">Table</th><th style="width:14%">Rows</th><th style="width:64%">Columns</th></tr></thead>
         <tbody>
           <tr><td><span class="mx-ctrl">health_events</span><span class="mx-sub">67 counties × 15 yrs (2010–2024)</span></td><td>1,005</td><td><code>county_nm</code>, <code>yr</code>, <code>births_n</code>, <code>deaths_n</code>, <code>infant_deaths_n</code>, <code>low_bw_births_n</code>, <code>drug_od_deaths_n</code></td></tr>
-          <tr><td><span class="mx-ctrl">population</span><span class="mx-sub">long format</span></td><td>5,025</td><td><code>county_nm</code>, <code>yr</code>, <code>age_group</code> (0-17, 18-44, 45-64, 65-74, 75+), <code>pop</code></td></tr>
+          <tr><td><span class="mx-ctrl">population</span><span class="mx-sub">long format</span></td><td>5,025</td><td><code>county_nm</code>, <code>yr</code>, age_group (0-17, <code>18-44</code>, <code>45-64</code>, <code>65-74</code>, <code>75+)</code>, <code>pop</code></td></tr>
           <tr><td><span class="mx-ctrl">deaths_by_age</span><span class="mx-sub">age-specific deaths</span></td><td>5,025</td><td><code>county_nm</code>, <code>yr</code>, <code>age_group</code>, <code>deaths_n</code></td></tr>
           <tr><td><span class="mx-ctrl">facilities</span></td><td>1,005</td><td><code>county_nm</code>, <code>yr</code>, <code>hosp_cnt</code>, <code>staffed_beds</code>, <code>pcp_cnt</code></td></tr>
         </tbody>
       </table>
     </div>
-    <div class="note tip"><span class="nl">On purpose</span><div>The US-2000 <strong>standard-population weights</strong> needed to age-adjust are <em>not</em> shipped as a table — they're the governed context you add in the metric view (Round 2). If they were sitting in the space, Genie would find and use them; withholding them is what makes the raw answer a crude rate.</div></div>
-
+    <div class="note tip"><span class="nl">On purpose</span><div>The US-2000 <strong>standard-population weights</strong> needed to age-adjust are <em>not</em> shipped as a table — they are the governed context you add in the metric view (Round 2). If they sat in the space, Genie would find and use them; withholding them is what makes the raw answer a crude rate.</div></div>
     <div class="lab-body">
-      <p class="lab-sub">Round 1 · warm-up (single table)</p>
+      <p class="lab-sub">Round 1 · warm-up</p>
       <ul class="qlist">
-        <li><span class="stat ok">Correct</span>How many births were there in Leon County in 2023?</li>
-        <li><span class="stat ok">Correct</span>How many total deaths were recorded statewide in 2022?</li>
-        <li><span class="stat ok">Correct</span>How many counties are in the dataset?</li>
-        <li><span class="stat ok">Correct</span>What was the population of Miami-Dade in 2023? <span class="mx-sub" style="display:inline">— Genie sums the age bands correctly</span></li>
-        <li><span class="stat ok">Correct</span>How many staffed beds are in Duval County?</li>
+        <li><span class="stat ok">Correct</span><span class="qid">H01</span>How many births were there in Leon County in 2023?<span class="ans"><b>Answer</b> 3,656 births</span></li>
+        <li><span class="stat ok">Correct</span><span class="qid">H02</span>How many total deaths were recorded statewide in 2022?<span class="ans"><b>Answer</b> 240,784 deaths</span></li>
+        <li><span class="stat ok">Correct</span><span class="qid">H03</span>How many counties are in the dataset?<span class="ans"><b>Answer</b> 67 counties</span></li>
+        <li><span class="stat ok">Correct</span><span class="qid">H04</span>What was the total population of Miami-Dade County in 2023?<span class="ans"><b>Answer</b> 2,764,797 (sum of the five age bands)</span></li>
+        <li><span class="stat ok">Correct</span><span class="qid">H05</span>How many staffed hospital beds were there in Duval County in 2024?<span class="ans"><b>Answer</b> 1,915 staffed beds</span></li>
       </ul>
       <p class="lab-sub">Round 1 · aggregation &amp; ranking</p>
       <ul class="qlist">
-        <li><span class="stat ok">Correct</span>Which counties had the most deaths in 2023?</li>
-        <li><span class="stat ok">Correct</span>Total drug-overdose deaths by year statewide?</li>
-        <li><span class="stat ok">Correct</span>What is the death rate per 100,000 residents by county? <span class="mx-sub" style="display:inline">— Genie computes a correct <em>crude</em> rate</span></li>
-        <li><span class="stat bad">Wrong</span>Which counties have the highest infant mortality rate? <span class="mx-sub" style="display:inline">— the formula's right, but it ranks tiny counties on noise (Lafayette, Liberty — 1 death each); NCHS suppresses rates with &lt;20 events, giving Leon/Pasco/Seminole</span></li>
-        <li><span class="stat ok">Correct</span>How have infant deaths changed over time statewide?</li>
+        <li><span class="stat ok">Correct</span><span class="qid">H06</span>Which five counties had the most deaths in 2023?<span class="ans"><b>Answer</b> Miami-Dade 30,239 · Broward 20,819 · Hillsborough 17,693 · Palm Beach 15,578 · Orange 15,578 (tie)</span></li>
+        <li><span class="stat ok">Correct</span><span class="qid">H07</span>What were total drug-overdose deaths statewide in each year from 2010 to 2024?<span class="ans"><b>Answer</b> 5,055 in 2010, rising to a peak of 5,637 in 2023, then 5,632 in 2024</span></li>
+        <li><span class="stat ok">Correct</span><span class="qid">H08</span>What was the death rate per 100,000 residents for each county in 2024?<span class="ans"><b>Answer</b> Statewide crude rate 1,101.2 per 100k; highest Hamilton 2,305.1 · Gadsden 2,253.6 · Hendry 1,786.5</span></li>
+        <li><span class="stat bad">Wrong</span><span class="qid">H09</span>Which counties had the highest infant mortality rate in 2024?<span class="ans"><b>Answer</b> Leon 6.6 · Pasco 6.4 · Seminole 6.4 per 1,000 births — after suppressing the 46 counties with fewer than 20 infant deaths (NCHS)</span><span class="ans raw"><b>Raw Genie</b> Lafayette 13.3 · Liberty 12.2 — each from a single infant death. Genie adds a caveat and an ad-hoc ≥500-births cut (Citrus, Monroe, Leon), not the NCHS rule</span></li>
+        <li><span class="stat ok">Correct</span><span class="qid">H10</span>How did the number of infant deaths statewide change from 2010 to 2024?<span class="ans"><b>Answer</b> 1,197 in 2010 → 1,328 in 2024 (+131, +10.9%)</span></li>
       </ul>
       <p class="lab-sub">Round 1 · governance / analytical</p>
       <ul class="qlist">
-        <li><span class="stat bad">Wrong</span>Which counties have the worst mortality? <span class="mx-sub" style="display:inline">— the crude rate ranks the <em>oldest</em> counties (Hamilton, Gadsden, Hendry); the age-adjusted answer is Bay, Gadsden, Columbia</span></li>
-        <li><span class="stat bad">Wrong</span>What is the age-adjusted death rate by county? <span class="mx-sub" style="display:inline">— Genie can't reproduce the governed standard without the weights</span></li>
-        <li><span class="stat ok">Correct</span>Which counties have the fewest staffed beds per capita?</li>
-        <li><span class="stat ok">Correct</span>Do counties with more primary-care providers per capita have lower death rates?</li>
+        <li><span class="stat bad">Wrong</span><span class="qid">H11</span>Which counties had the worst mortality in 2024?<span class="ans"><b>Answer</b> Bay 1,458 · Gadsden 1,454 · Columbia 1,434 per 100k (age-adjusted, US-2000 standard)</span><span class="ans raw"><b>Raw Genie</b> Hamilton 2,305 · Gadsden 2,254 · Hendry 1,787 — crude rates, which rank the oldest counties</span></li>
+        <li><span class="stat bad">Wrong</span><span class="qid">H12</span>What was the age-adjusted death rate per 100,000 for each county in 2024?<span class="ans"><b>Answer</b> Bay 1,458 · Gadsden 1,454 · Columbia 1,434 per 100k (US-2000 standard population)</span><span class="ans raw"><b>Raw Genie</b> Same top 3 but ~13% higher (Bay 1,650) — improvises Florida's own 2024 age mix as the standard, so rates don't match published figures</span></li>
+        <li><span class="stat ok">Correct</span><span class="qid">H13</span>Which three counties had the fewest staffed hospital beds per 100,000 residents in 2024?<span class="ans"><b>Answer</b> Levy 33.1 · Liberty 36.3 · Hardee 41.0 beds per 100k</span></li>
+        <li><span class="stat ok">Correct</span><span class="qid">H14</span>In 2024, did counties with more primary-care providers per 100,000 residents have lower death rates?<span class="ans"><b>Answer</b> Yes — moderate negative correlation, r = −0.52</span></li>
       </ul>
-
-      <div class="note flag"><span class="nl">The trap</span><div>Ask Genie for the “worst mortality” and it returns a <strong>crude death rate</strong> — deaths ÷ population. It's arithmetically correct, but it's confounded by age: old, rural counties top the list because they're old, not because they're less healthy. The measure public health actually uses is the <strong>age-adjusted rate</strong>, which needs a standard-population weighting Genie can't know. Pin it once in a metric view and the ranking changes to the counties with a genuine health disparity.</div></div>
-
       <p class="lab-sub">Round 2 · add context to fix the misses</p>
       <div class="matrix-wrap">
         <table class="mx">
-          <thead><tr><th style="width:24%">Question</th><th style="width:30%">What Genie does raw → correct</th><th style="width:46%">Context to add</th></tr></thead>
+          <thead><tr><th style="width:30%">Question</th><th style="width:16%">Context type</th><th style="width:54%">Exactly what to add</th></tr></thead>
           <tbody>
-            <tr><td>“worst / highest mortality”</td><td>Crude rate → oldest counties (Hamilton/Gadsden/Hendry) → age-adjusted (<strong>Bay/Gadsden/Columbia</strong>)</td><td><span class="chip lava">Metric view</span> <code>county_mortality_metrics</code> — direct age standardization using the US-2000 weights (paste-ready in the <a href="#metrics">metric-views appendix</a>). Add it to the space; then ask again.</td></tr>
-            <tr><td>“age-adjusted death rate”</td><td>Can't apply the standard without weights</td><td>Same metric view — the standard-population weights are pinned inside it, so every user gets the identical governed rate.</td></tr>
-            <tr><td>“highest infant mortality rate”</td><td>Ranks tiny counties on noise (1–2 deaths) → suppress and the top is Leon/Pasco/Seminole</td><td><strong>Instruction:</strong> “Apply the NCHS reliability standard — do not report or rank a rate whose numerator (e.g. <code>infant_deaths_n</code>) is under 20 events; flag it as statistically unreliable.” (46 of 67 counties fall below the threshold.)</td></tr>
-            <tr><td>Crude death / OD rate per 100k</td><td>Correct as a crude rate, but re-derived ad hoc each time</td><td><strong>Consistency:</strong> keep the crude measure in the metric view too, so Genie, dashboards, and SQL all return one agreed number.</td></tr>
+            <tr><td><span class="mx-ctrl">H09</span>Which counties had the highest infant mortality rate in 2024?</td><td>Instruction + column description</td><td>Instruction: follow the NCHS standard — don't rank a rate whose numerator is under 20 events. The <code>health_events.infant_deaths_n</code> description repeats the rule.</td></tr>
+            <tr><td><span class="mx-ctrl">H11</span>Which counties had the worst mortality in 2024?</td><td>Metric view + instruction</td><td><code>county_mortality_metrics.age_adjusted_death_rate_per_100k</code>, plus the instruction to rank mortality by the age-adjusted rate.</td></tr>
+            <tr><td><span class="mx-ctrl">H12</span>What was the age-adjusted death rate per 100,000 for each county in 2024?</td><td>Metric view</td><td><code>county_mortality_metrics</code> pins the US-2000 standard weights, so every rate is comparable to CDC and FLHealthCHARTS figures.</td></tr>
           </tbody>
         </table>
       </div>
-      <div class="card flag">
-        <p class="kicker">Metric view to create</p>
-        <h3>Pin the mortality methodology once</h3>
-        <p><code>county_mortality_metrics</code> defines both <code>crude_death_rate_per_100k</code> and <code>age_adjusted_death_rate_per_100k</code> over <code>deaths_by_age</code> ⋈ <code>population</code>, with the US-2000 standard weights embedded. Define it once and every rate question — and the dashboard — computes the governed way.</p>
+      <p class="lab-sub">Round 2 · step 1 — column &amp; table descriptions</p>
+      <p>Set these in <strong>Catalog Explorer</strong> (table → column → edit description), or paste the SQL below. Catalog comments flow into chart labels and every tool — not just Genie.</p>
+      <div class="matrix-wrap">
+        <table class="mx">
+          <thead><tr><th style="width:30%">Table · column</th><th style="width:70%">Description to add</th></tr></thead>
+          <tbody>
+            <tr><td><code>health.population</code> <span class="mx-sub">table description</span></td><td>One row per county x year x age band. Sum pop across age_group for a county's total population.</td></tr>
+            <tr><td><code>health.deaths_by_age</code> <span class="mx-sub">table description</span></td><td>Deaths by county, year, and age band. Join to population on county_nm + yr + age_group for age-specific death rates.</td></tr>
+            <tr><td><code>health.health_events.deaths_n</code></td><td>Total deaths (all ages). Dividing by total population gives a CRUDE rate, which is confounded by age; rank outcomes with the age-adjusted rate.</td></tr>
+            <tr><td><code>health.health_events.infant_deaths_n</code></td><td>Deaths under age 1. Infant mortality rate = infant_deaths_n / births_n x 1,000. Rates with fewer than 20 events are statistically unreliable (NCHS) and should be suppressed.</td></tr>
+          </tbody>
+        </table>
       </div>
+<pre class="wrap-pre"><code>-- Round 2 · paste into the SQL editor (catalog fl_gov_demo; change it if you used another)
+COMMENT ON TABLE fl_gov_demo.health.population IS
+  'One row per county x year x age band. Sum pop across age_group for a county''s total population.';
+COMMENT ON TABLE fl_gov_demo.health.deaths_by_age IS
+  'Deaths by county, year, and age band. Join to population on county_nm + yr + age_group for age-specific death rates.';
+ALTER TABLE fl_gov_demo.health.health_events ALTER COLUMN deaths_n COMMENT
+  'Total deaths (all ages). Dividing by total population gives a CRUDE rate, which is confounded by age; rank outcomes with the age-adjusted rate.';
+ALTER TABLE fl_gov_demo.health.health_events ALTER COLUMN infant_deaths_n COMMENT
+  'Deaths under age 1. Infant mortality rate = infant_deaths_n / births_n x 1,000. Rates with fewer than 20 events are statistically unreliable (NCHS) and should be suppressed.';</code></pre>
+      <p class="lab-sub">Round 2 · step 2 — Genie instructions</p>
+      <p>Genie space → <strong>Configure → Instructions</strong> → paste as general instructions:</p>
+<pre class="wrap-pre"><code>- When asked for the worst, highest, or lowest mortality, rank counties by the age-adjusted death rate (county_mortality_metrics.age_adjusted_death_rate_per_100k), not the crude rate.
+- Follow the NCHS reliability standard: do not rank or report a rate whose numerator is fewer than 20 events; label it statistically unreliable instead.</code></pre>
+      <p class="lab-sub">Round 2 · step 3 — metric view</p>
+      <p>Create <code>fl_gov_demo.health.county_mortality_metrics</code> (paste-ready SQL in the <a href="#metrics-health">metric-views appendix</a>), then add it to the space as a data source.</p>
+      <div class="note flag"><span class="nl">Takeaway</span><div>Genie's arithmetic was right every time. What it lacked was <strong>methodology</strong>: age-adjust before ranking, and suppress rates built on fewer than 20 events. Pin the method in a metric view and an instruction, and every analyst gets the same governed rate.</div></div>
     </div>
   </div>
 </section>
 
-<!-- ---- TRANSPORT ---- -->
+<!-- ---- TRANSPORTATION ---- -->
 <section id="transport">
   <div class="wrap">
     <div class="section-head">
@@ -484,60 +558,103 @@
       <h2>FDOT / Transportation</h2>
       <p>Catalog <code>fl_gov_demo.transportation</code> · join key <code>proj_id</code> · grain project → funding records → change orders.</p>
     </div>
-
     <div class="matrix-wrap">
       <table class="mx">
         <thead><tr><th style="width:22%">Table</th><th style="width:14%">Rows</th><th style="width:64%">Columns</th></tr></thead>
         <tbody>
           <tr><td><span class="mx-ctrl">projects</span></td><td>500</td><td><code>proj_id</code>, <code>dist_no</code>, <code>county_nm</code>, <code>proj_type</code>, <code>phase_cd</code>, <code>status_cd</code>, <code>let_dt</code>, <code>est_compl_dt</code>, <code>act_compl_dt</code>, <code>orig_contract_amt</code></td></tr>
-          <tr><td><span class="mx-ctrl">obligations</span></td><td>1,558</td><td><code>oblig_id</code>, <code>proj_id</code>, <code>fund_src</code>, <code>fy</code>, <code>auth_amt</code>, <code>oblig_amt</code>, <code>expend_amt</code>, <code>oblig_deadline_dt</code>, <code>oblig_type</code></td></tr>
+          <tr><td><span class="mx-ctrl">obligations</span><span class="mx-sub">includes 45 deobligations</span></td><td>1,558</td><td><code>oblig_id</code>, <code>proj_id</code>, <code>fund_src</code>, <code>fy</code>, <code>auth_amt</code>, <code>oblig_amt</code>, <code>expend_amt</code>, <code>oblig_deadline_dt</code>, <code>oblig_type</code></td></tr>
           <tr><td><span class="mx-ctrl">change_orders</span></td><td>933</td><td><code>co_id</code>, <code>proj_id</code>, <code>co_amt</code>, <code>co_reason_cd</code>, <code>co_status</code>, <code>co_dt</code></td></tr>
         </tbody>
       </table>
     </div>
-
     <div class="lab-body">
-      <p class="lab-sub">Round 1 · warm-up (single table)</p>
+      <p class="lab-sub">Round 1 · warm-up</p>
       <ul class="qlist">
-        <li><span class="stat ok">Correct</span>How many projects are there in total?</li>
-        <li><span class="stat warn">Decode</span>How many projects are in each district, and what region does each cover? <span class="mx-sub" style="display:inline">— counts by <code>dist_no</code> fine, but can't name the FDOT regions</span></li>
-        <li><span class="stat ok">Correct</span>How many projects of each type? <span class="mx-sub" style="display:inline">— Genie decodes BRDG/PAVE/…</span></li>
-        <li><span class="stat ok">Correct</span>What is the total original contract amount for all projects?</li>
-        <li><span class="stat ok">Correct</span>How many change orders are there?</li>
+        <li><span class="stat ok">Correct</span><span class="qid">T01</span>How many projects are there in total?<span class="ans"><b>Answer</b> 500 projects</span></li>
+        <li><span class="stat ok">Correct</span><span class="qid">T02</span>How many projects are in each FDOT district, and what region does each district cover?<span class="ans"><b>Answer</b> D1 70 · D2 110 · D3 120 · D4 37 · D5 82 · D6 14 · D7 24 · D8 43. Regions: 1 Southwest, 2 Northeast, 3 Northwest/Panhandle, 4 Southeast, 5 Central, 6 Miami-Dade/Monroe, 7 Tampa Bay, 8 Turnpike (Genie infers these from the counties)</span></li>
+        <li><span class="stat ok">Correct</span><span class="qid">T03</span>How many projects are there of each project type?<span class="ans"><b>Answer</b> SAFETY 111 · PAVE 106 · RESURF 102 · ITS 91 · BRDG 90</span></li>
+        <li><span class="stat ok">Correct</span><span class="qid">T04</span>What is the total original contract amount across all projects?<span class="ans"><b>Answer</b> $9,119,899,983</span></li>
+        <li><span class="stat ok">Correct</span><span class="qid">T05</span>How many change orders are there in total?<span class="ans"><b>Answer</b> 933 change orders</span></li>
       </ul>
       <p class="lab-sub">Round 1 · aggregation &amp; ranking</p>
       <ul class="qlist">
-        <li><span class="stat ok">Correct</span>Which districts have the most projects?</li>
-        <li><span class="stat ok">Correct</span>How much of our funding is federal-aid vs. state? <span class="mx-sub" style="display:inline">— Genie knows IIJA/STP/NHPP are federal-aid</span></li>
-        <li><span class="stat ok">Correct</span>How many change orders were due to differing site conditions? <span class="mx-sub" style="display:inline">— Genie decodes <code>co_reason_cd='DSC'</code></span></li>
-        <li><span class="stat bad">Wrong</span>What is the total obligated funding? <span class="mx-sub" style="display:inline">— sums all rows ($9.89B); deobligations must be subtracted → net <strong>$9.71B</strong></span></li>
-        <li><span class="stat ok">Correct</span>How many change orders are pending, and their total value?</li>
+        <li><span class="stat ok">Correct</span><span class="qid">T06</span>Which FDOT district has the most projects?<span class="ans"><b>Answer</b> District 3 (Northwest/Panhandle), 120 projects</span></li>
+        <li><span class="stat ok">Correct</span><span class="qid">T07</span>Across all fiscal years, how much authorized funding is federal-aid versus state or toll?<span class="ans"><b>Answer</b> Federal-aid (IIJA + STP + NHPP) $9.00B · state $2.79B · toll $1.21B</span></li>
+        <li><span class="stat ok">Correct</span><span class="qid">T08</span>How many change orders were due to differing site conditions?<span class="ans"><b>Answer</b> 229 change orders (reason code DSC)</span></li>
+        <li><span class="stat bad">Wrong</span><span class="qid">T09</span>What is the total obligated funding across all fiscal years?<span class="ans"><b>Answer</b> $9,709,693,251 — obligations net of 45 deobligations</span><span class="ans raw"><b>Raw Genie</b> $9.89B — adds the deobligation rows instead of subtracting them</span></li>
+        <li><span class="stat ok">Correct</span><span class="qid">T10</span>How many change orders are pending approval, and what is their total value?<span class="ans"><b>Answer</b> 261 pending, $135,176,722</span></li>
       </ul>
       <p class="lab-sub">Round 1 · cross-table / analytical</p>
       <ul class="qlist">
-        <li><span class="stat ok">Correct</span>Which projects are delayed? <span class="mx-sub" style="display:inline">— Genie uses the full compound rule (49 projects)</span></li>
-        <li><span class="stat bad">Wrong</span>Which projects have change orders exceeding 10% of their original contract? <span class="mx-sub" style="display:inline">— counts <em>all</em> change orders; only approved (APPR) count → <strong>34</strong></span></li>
-        <li><span class="stat bad">Wrong</span>How many change orders are “major” and require central-office approval? <span class="mx-sub" style="display:inline">— Genie can't answer (no threshold in the data); FDOT's rule is &gt;$250K → <strong>270</strong> approved</span></li>
-        <li><span class="stat ok">Correct</span>Which IIJA obligations are closest to deadline and still under-obligated? <span class="mx-sub" style="display:inline">— 10 obligations</span></li>
-        <li><span class="stat ok">Correct</span>Do bridge projects have larger change-order overruns than paving projects?</li>
-        <li><span class="stat ok">Correct</span>Which districts have the biggest gap between obligated and expended funds?</li>
+        <li><span class="stat bad">Wrong</span><span class="qid">T11</span>How many projects are delayed?<span class="ans"><b>Answer</b> 49 — 37 finished late plus 12 open and past due</span><span class="ans raw"><b>Raw Genie</b> 12 — counts only open projects past due and skips those that finished late. An earlier run returned 49: without a definition the answer drifts</span></li>
+        <li><span class="stat bad">Wrong</span><span class="qid">T12</span>How many projects have change orders totaling more than 10% of their original contract amount?<span class="ans"><b>Answer</b> 34 projects (approved change orders only)</span><span class="ans raw"><b>Raw Genie</b> 75 — counts pending and rejected change orders too</span></li>
+        <li><span class="stat bad">Wrong</span><span class="qid">T13</span>How many approved change orders are major and required central-office (supplemental agreement) approval?<span class="ans"><b>Answer</b> 270 approved change orders over $250,000</span><span class="ans raw"><b>Raw Genie</b> Declines — nothing in the data marks a change order as major</span></li>
+        <li><span class="stat ok">Correct</span><span class="qid">T14</span>How many IIJA obligations have an obligation deadline within the next 180 days and are still under-obligated?<span class="ans"><b>Answer</b> 10 obligations, $28.4M still to obligate (deadlines Oct 23, 2026 – Mar 4, 2027)</span></li>
+        <li><span class="stat ok">Correct</span><span class="qid">T15</span>On average, do bridge projects have larger approved change-order overruns, as a percent of original contract, than paving projects?<span class="ans"><b>Answer</b> Yes — bridge 5.3% vs paving 3.2% average approved overrun</span></li>
+        <li><span class="stat ok">Correct</span><span class="qid">T16</span>Which FDOT district has the largest gap between obligated and expended funds?<span class="ans"><b>Answer</b> District 3 — $1.08B net of deobligations (raw Genie reports $1.11B gross, same district)</span></li>
       </ul>
-
-      <div class="note flag"><span class="nl">The traps</span><div>Two federal-aid habits Genie can't know: <strong>deobligations</strong> (an <code>oblig_type='DEOBL'</code> row <em>releases</em> money and must be subtracted, not added) and <strong>“approved only”</strong> (a change order isn't real spend until <code>co_status='APPR'</code>). Both give a confident, too-high number raw.</div></div>
-
       <p class="lab-sub">Round 2 · add context to fix the misses</p>
       <div class="matrix-wrap">
         <table class="mx">
-          <thead><tr><th style="width:24%">Question</th><th style="width:30%">What Genie does raw → correct</th><th style="width:46%">Context to add</th></tr></thead>
+          <thead><tr><th style="width:30%">Question</th><th style="width:16%">Context type</th><th style="width:54%">Exactly what to add</th></tr></thead>
           <tbody>
-            <tr><td>“total obligated funding”</td><td>Sums all rows ($9.89B) → net of deobligations (<strong>$9.71B</strong>)</td><td><strong>Column/table description</strong> for <code>oblig_type</code>: <code>OBL</code>=obligation, <code>DEOBL</code>=deobligation (a release — subtract it). Or use the metric view below.</td></tr>
-            <tr><td>Change orders &gt;10%</td><td>Counts all COs → approved-only (<strong>34</strong> projects)</td><td><strong>Instruction:</strong> “Cumulative change-order % = SUM(<code>co_amt</code> where <code>co_status='APPR'</code>) / <code>orig_contract_amt</code>. Flag &gt; 0.10.” Codes: APPR=Approved, PEND=Pending, REJ=Rejected.</td></tr>
-            <tr><td>“major” change orders</td><td>Genie refuses — nothing in the data flags “major” → <strong>270</strong> approved</td><td><strong>Instruction:</strong> “A change order is <em>major</em> (requires central-office / supplemental-agreement approval) when <code>co_amt</code> &gt; $250,000. Count approved (APPR) majors.”</td></tr>
-            <tr><td>District / type / phase / reason codes</td><td>Shows raw codes / can't name regions</td><td><strong>Column descriptions:</strong> <code>dist_no</code> (1=Southwest, 2=Northeast, 3=Panhandle, 4=Southeast, 5=Central, 6=Miami-Dade/Monroe, 7=Tampa Bay, 8=Turnpike); <code>proj_type</code> (PAVE, BRDG=Bridge, SAFETY, ITS, RESURF=Resurfacing); <code>phase_cd</code> (PE=Preliminary Engineering, ROW=Right of Way, CST=Construction); <code>co_reason_cd</code> (DSC=Differing Site Conditions, DE=Design Error, WX=Weather, SC=Scope Change); <code>fund_src</code> (IIJA/STP/NHPP=federal-aid, STATE, TOLL)</td></tr>
-            <tr><td>Burn rate / unobligated (consistency)</td><td>Correct raw, but re-derived each time</td><td><span class="chip lava">Metric view</span> <code>capital_program_metrics</code> — net obligated, expenditure rate, unobligated as governed measures (appendix).</td></tr>
+            <tr><td><span class="mx-ctrl">T09</span>What is the total obligated funding across all fiscal years?</td><td>Description + metric view</td><td><code>obligations.oblig_type</code>: OBL adds funds, DEOBL releases them (subtract). The <code>capital_program_metrics.obligated</code> measure nets it.</td></tr>
+            <tr><td><span class="mx-ctrl">T11</span>How many projects are delayed?</td><td>Instruction</td><td>Delayed = finished late (<code>projects.act_compl_dt</code> after <code>projects.est_compl_dt</code>) or past <code>est_compl_dt</code> and not complete (<code>projects.status_cd &lt;&gt; 'COMP'</code>).</td></tr>
+            <tr><td><span class="mx-ctrl">T12</span>How many projects have change orders totaling more than 10% of their original contract amount?</td><td>Instruction + column description</td><td>Count only <code>change_orders.co_status = 'APPR'</code>; flag when cumulative approved <code>change_orders.co_amt</code> / <code>projects.orig_contract_amt</code> exceeds 10%.</td></tr>
+            <tr><td><span class="mx-ctrl">T13</span>How many approved change orders are major and required central-office (supplemental agreement) approval?</td><td>Instruction + column description</td><td>Major = <code>change_orders.co_amt</code> over $250,000, which requires central-office supplemental-agreement approval.</td></tr>
           </tbody>
         </table>
       </div>
+      <p class="lab-sub">Round 2 · step 1 — column &amp; table descriptions</p>
+      <p>Set these in <strong>Catalog Explorer</strong> (table → column → edit description), or paste the SQL below. Catalog comments flow into chart labels and every tool — not just Genie.</p>
+      <div class="matrix-wrap">
+        <table class="mx">
+          <thead><tr><th style="width:30%">Table · column</th><th style="width:70%">Description to add</th></tr></thead>
+          <tbody>
+            <tr><td><code>transportation.projects.dist_no</code></td><td>FDOT district. 1=Southwest, 2=Northeast, 3=Northwest (Panhandle), 4=Southeast, 5=Central, 6=Miami-Dade/Monroe, 7=Tampa Bay, 8=Florida's Turnpike Enterprise.</td></tr>
+            <tr><td><code>transportation.projects.proj_type</code></td><td>Project type. PAVE=Paving, BRDG=Bridge, SAFETY=Safety, ITS=Intelligent Transportation Systems, RESURF=Resurfacing.</td></tr>
+            <tr><td><code>transportation.projects.phase_cd</code></td><td>Current phase. PE=Preliminary Engineering, ROW=Right of Way, CST=Construction.</td></tr>
+            <tr><td><code>transportation.projects.status_cd</code></td><td>Project status. ACT=Active, HOLD=On hold, COMP=Complete, PLAN=Planned.</td></tr>
+            <tr><td><code>transportation.obligations</code> <span class="mx-sub">table description</span></td><td>Funding records per project. Rows with oblig_type='DEOBL' release previously obligated money and must be subtracted when totaling obligations.</td></tr>
+            <tr><td><code>transportation.obligations.oblig_type</code></td><td>OBL=obligation (adds funds); DEOBL=deobligation (releases funds, subtract its oblig_amt).</td></tr>
+            <tr><td><code>transportation.obligations.fund_src</code></td><td>Fund source. IIJA, STP (Surface Transportation Block Grant), NHPP (National Highway Performance Program) are federal-aid; STATE=state funds; TOLL=toll revenue.</td></tr>
+            <tr><td><code>transportation.change_orders.co_status</code></td><td>Change-order status. APPR=Approved, PEND=Pending, REJ=Rejected. Only APPR change orders count as added cost.</td></tr>
+            <tr><td><code>transportation.change_orders.co_reason_cd</code></td><td>Reason. DSC=Differing Site Conditions, DE=Design Error, WX=Weather, SC=Scope Change.</td></tr>
+            <tr><td><code>transportation.change_orders.co_amt</code></td><td>Change-order dollar amount. A change order over $250,000 is 'major' and requires central-office supplemental-agreement approval.</td></tr>
+          </tbody>
+        </table>
+      </div>
+<pre class="wrap-pre"><code>-- Round 2 · paste into the SQL editor (catalog fl_gov_demo; change it if you used another)
+ALTER TABLE fl_gov_demo.transportation.projects ALTER COLUMN dist_no COMMENT
+  'FDOT district. 1=Southwest, 2=Northeast, 3=Northwest (Panhandle), 4=Southeast, 5=Central, 6=Miami-Dade/Monroe, 7=Tampa Bay, 8=Florida''s Turnpike Enterprise.';
+ALTER TABLE fl_gov_demo.transportation.projects ALTER COLUMN proj_type COMMENT
+  'Project type. PAVE=Paving, BRDG=Bridge, SAFETY=Safety, ITS=Intelligent Transportation Systems, RESURF=Resurfacing.';
+ALTER TABLE fl_gov_demo.transportation.projects ALTER COLUMN phase_cd COMMENT
+  'Current phase. PE=Preliminary Engineering, ROW=Right of Way, CST=Construction.';
+ALTER TABLE fl_gov_demo.transportation.projects ALTER COLUMN status_cd COMMENT
+  'Project status. ACT=Active, HOLD=On hold, COMP=Complete, PLAN=Planned.';
+COMMENT ON TABLE fl_gov_demo.transportation.obligations IS
+  'Funding records per project. Rows with oblig_type=''DEOBL'' release previously obligated money and must be subtracted when totaling obligations.';
+ALTER TABLE fl_gov_demo.transportation.obligations ALTER COLUMN oblig_type COMMENT
+  'OBL=obligation (adds funds); DEOBL=deobligation (releases funds, subtract its oblig_amt).';
+ALTER TABLE fl_gov_demo.transportation.obligations ALTER COLUMN fund_src COMMENT
+  'Fund source. IIJA, STP (Surface Transportation Block Grant), NHPP (National Highway Performance Program) are federal-aid; STATE=state funds; TOLL=toll revenue.';
+ALTER TABLE fl_gov_demo.transportation.change_orders ALTER COLUMN co_status COMMENT
+  'Change-order status. APPR=Approved, PEND=Pending, REJ=Rejected. Only APPR change orders count as added cost.';
+ALTER TABLE fl_gov_demo.transportation.change_orders ALTER COLUMN co_reason_cd COMMENT
+  'Reason. DSC=Differing Site Conditions, DE=Design Error, WX=Weather, SC=Scope Change.';
+ALTER TABLE fl_gov_demo.transportation.change_orders ALTER COLUMN co_amt COMMENT
+  'Change-order dollar amount. A change order over $250,000 is ''major'' and requires central-office supplemental-agreement approval.';</code></pre>
+      <p class="lab-sub">Round 2 · step 2 — Genie instructions</p>
+      <p>Genie space → <strong>Configure → Instructions</strong> → paste as general instructions:</p>
+<pre class="wrap-pre"><code>- A delayed project either finished late (projects.act_compl_dt after est_compl_dt) or is past its est_compl_dt and not yet complete (status_cd &lt;&gt; 'COMP'). Count both.
+- Change-order cost counts only approved change orders (change_orders.co_status = 'APPR').
+- A major change order is one with change_orders.co_amt over $250,000; it requires central-office (supplemental agreement) approval.
+- Total obligations = SUM(oblig_amt) for oblig_type 'OBL' minus SUM(oblig_amt) for oblig_type 'DEOBL'.</code></pre>
+      <p class="lab-sub">Round 2 · step 3 — metric view</p>
+      <p>Create <code>fl_gov_demo.transportation.capital_program_metrics</code> (paste-ready SQL in the <a href="#metrics-fdot">metric-views appendix</a>), then add it to the space as a data source.</p>
+      <div class="note flag"><span class="nl">Takeaway</span><div>The traps are federal-aid habits Genie can't know: <strong>deobligations</strong> are subtractions, change orders don't count until <strong>approved</strong>, and “major” is a <strong>$250K</strong> policy line. Each is one sentence of context.</div></div>
     </div>
   </div>
 </section>
@@ -567,9 +684,48 @@
   </div>
 </section>
 
-<section id="metrics-health" class="band-alt">
+<section id="metrics-spending" class="band-alt">
   <div class="wrap">
-    <div class="section-head"><p class="eyebrow">Health · the showcase</p><h2>county_mortality_metrics</h2><p>The <strong>age-adjusted</strong> death rate via direct standardization: compute each age band's death rate, weight it by the US-2000 standard population, and sum — so age structure no longer confounds the ranking. The standard weights are pinned <em>inside</em> the view (the governed context the raw space doesn't have), which is exactly why raw Genie can only give a crude rate.</p></div>
+    <div class="section-head"><p class="eyebrow">Spending · the live build</p><h2>payment_metrics</h2><p>One governed view over payments ⋈ contracts (many-to-one, so no fan-out). It pins three rules raw Genie gets wrong — the <strong>Florida fiscal year</strong>, the <strong>40-day Prompt Payment Act</strong> clock, and <strong>state vs. federal</strong> fund grouping — and decodes agency names for chart labels.</p></div>
+<pre><code>CREATE OR REPLACE VIEW fl_gov_demo.spending.payment_metrics
+WITH METRICS LANGUAGE YAML AS $$
+version: 1.1
+source: |
+  SELECT p.pmt_id, p.pmt_amt, p.pmt_dt, p.invoice_dt, p.fund_src, c.agency_cd
+  FROM fl_gov_demo.spending.payments p
+  JOIN fl_gov_demo.spending.contracts c ON p.contract_id = c.contract_id
+fields:
+  - name: agency
+    expr: |
+      CASE agency_cd
+        WHEN 'DOT' THEN 'Transportation'       WHEN 'DOC' THEN 'Corrections'
+        WHEN 'DCF' THEN 'Children &amp; Families'  WHEN 'DOH' THEN 'Health'
+        WHEN 'DEP' THEN 'Environmental Protection'
+        WHEN 'DMS' THEN 'Management Services'  WHEN 'DOR' THEN 'Revenue'
+      END
+  # Florida fiscal year runs Jul 1 - Jun 30 and is named for the year it ends
+  - name: fiscal_year
+    expr: YEAR(pmt_dt) + CASE WHEN MONTH(pmt_dt) &gt;= 7 THEN 1 ELSE 0 END
+  - name: fund_category
+    expr: CASE WHEN fund_src IN ('GR','TF') THEN 'State' ELSE 'Federal' END
+measures:
+  - name: total_spend
+    expr: SUM(pmt_amt)
+  - name: payment_count
+    expr: COUNT(pmt_id)
+  # FL Prompt Payment Act (s.215.422): late = paid more than 40 days after invoice
+  - name: late_payments
+    expr: SUM(CASE WHEN DATEDIFF(pmt_dt, invoice_dt) &gt; 40 THEN 1 ELSE 0 END)
+  - name: prompt_pay_compliance_pct
+    expr: 100.0 * SUM(CASE WHEN DATEDIFF(pmt_dt, invoice_dt) &lt;= 40 THEN 1 ELSE 0 END) / COUNT(pmt_id)
+$$;</code></pre>
+    <div class="note tip"><span class="nl">Try it</span><div>Ask S16 (“prompt-payment compliance by agency in FY2026”) before and after adding the view. Raw: Net-30 over the federal year (~76% overall). Governed: 99.1–99.8% by agency. The same view also fixes S10, S11, and S12.</div></div>
+  </div>
+</section>
+
+<section id="metrics-health">
+  <div class="wrap">
+    <div class="section-head"><p class="eyebrow">Health · governance showcase</p><h2>county_mortality_metrics</h2><p>The <strong>age-adjusted</strong> death rate via direct standardization: each age band's death rate, weighted by the US-2000 standard population, summed — so age structure no longer confounds the ranking. The standard weights live <em>inside</em> the view, which is why raw Genie can only give a crude rate.</p></div>
 <pre><code>CREATE OR REPLACE VIEW fl_gov_demo.health.county_mortality_metrics
 WITH METRICS LANGUAGE YAML AS $$
 version: 1.1
@@ -589,19 +745,18 @@ fields:
   - name: year
     expr: yr
 measures:
-  # direct age standardization: sum of (age-specific rate x standard weight)
   - name: age_adjusted_death_rate_per_100k
     expr: SUM((deaths_n * 1.0 / pop) * std_pop)
   - name: crude_death_rate_per_100k
     expr: SUM(deaths_n) / SUM(pop) * 100000
 $$;</code></pre>
-    <div class="note tip"><span class="nl">Try it</span><div>Ask “worst mortality” before adding the view (crude → Hamilton, Gadsden, Hendry) and after (age-adjusted → Bay, Gadsden, Columbia). Same question, governed answer.</div></div>
+    <div class="note tip"><span class="nl">Try it</span><div>Ask H11 (“worst mortality in 2024”) before the view (crude → Hamilton, Gadsden, Hendry) and after (age-adjusted → Bay, Gadsden, Columbia).</div></div>
   </div>
 </section>
 
-<section id="metrics-fdot">
+<section id="metrics-fdot" class="band-alt">
   <div class="wrap">
-    <div class="section-head"><p class="eyebrow">FDOT / Transportation</p><h2>capital_program_metrics</h2><p>Net obligated (deobligations subtracted), burn rate, and unobligated balance as governed measures. The <code>oblig_type</code> sign convention is baked in so no one double-counts a released obligation.</p></div>
+    <div class="section-head"><p class="eyebrow">FDOT / Transportation</p><h2>capital_program_metrics</h2><p>Net obligated (deobligations subtracted), expenditure rate, and unobligated balance as governed measures. The <code>oblig_type</code> sign convention is baked in so no one double-counts a released obligation.</p></div>
 <pre><code>CREATE OR REPLACE VIEW fl_gov_demo.transportation.capital_program_metrics
 WITH METRICS LANGUAGE YAML AS $$
 version: 1.1
@@ -620,7 +775,6 @@ fields:
 measures:
   - name: authorized
     expr: SUM(auth_amt)
-  # DEOBL rows release money, so subtract them from obligated
   - name: obligated
     expr: SUM(CASE WHEN oblig_type = 'DEOBL' THEN -oblig_amt ELSE oblig_amt END)
   - name: expended
@@ -630,7 +784,7 @@ measures:
   - name: unobligated
     expr: SUM(auth_amt) - SUM(CASE WHEN oblig_type = 'DEOBL' THEN -oblig_amt ELSE oblig_amt END)
 $$;</code></pre>
-    <div class="note tip"><span class="nl">Spending</span><div>The Spending space needs no metric view — its numbers are simple <code>SUM</code>s handled by column/table descriptions and Genie instructions (see the Spending section).</div></div>
+    <div class="note tip"><span class="nl">Try it</span><div>Ask T09 (“total obligated funding”) before ($9.89B, gross) and after ($9.71B, net of deobligations).</div></div>
   </div>
 </section>
 

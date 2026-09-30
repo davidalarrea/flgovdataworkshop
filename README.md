@@ -63,8 +63,8 @@ Point a new Genie space at the tables in your schema (`fl_gov_demo.spending`,
 `fl_gov_demo.health`, or `fl_gov_demo.transportation`) and start asking the questions from the
 [participant guide](participant-guide.html).
 
-> **Metric views** (used in the Health and FDOT sections) require a SQL warehouse or cluster on
-> **Databricks Runtime 17.3+**.
+> **Metric views** (one per dataset — Spending's `payment_metrics` is part of the live build) require a
+> SQL warehouse or cluster on **Databricks Runtime 17.3+**.
 
 ## 📂 What's in this repo
 
@@ -72,7 +72,7 @@ Point a new Genie space at the tables in your schema (`fl_gov_demo.spending`,
 |---|---|
 | `free-edition-setup.html` | How to create a free Databricks workspace before the session |
 | `load_spending.py` · `load_health.py` · `load_transportation.py` | Self-contained dataset loaders (import one, Run All) |
-| `participant-guide.html` | The full participant walkthrough (load → build → ask → add context → metric views → dashboards) |
+| `participant-guide.html` | The full participant walkthrough — every question with its answer, the exact table/column descriptions, Genie instructions, and metric views to add |
 | `FACILITATOR_NOTES.md` | **Facilitator answer key** — expected numbers per question, with the raw-Genie-vs-correct contrasts |
 
 ---
