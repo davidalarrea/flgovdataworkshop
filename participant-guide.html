@@ -250,6 +250,7 @@
     <span class="mb-sep"></span>
     <a href="#metrics">Metric views</a>
     <a href="#dashboards">Dashboards</a>
+    <a href="#data-dictionary">Data dictionary</a>
     <span class="mb-sep"></span>
     <a href="#feedback">Feedback</a>
   </div>
@@ -992,6 +993,172 @@ $$;</code></pre>
       </table>
     </div>
     <div class="note tip"><span class="nl">Filters</span><div>district · fund source · status · fiscal year</div></div>
+  </div>
+</section>
+
+<!-- ============================ APPENDIX C · DATA DICTIONARY ============================ -->
+<div class="part" id="data-dictionary">
+  <div class="wrap">
+    <p class="eyebrow">Appendix C · reference</p>
+    <h2>Data dictionary</h2>
+    <p>Every table and column across the three datasets, in plain English. This is the raw material — the <em>business context</em> that decodes it (what the codes mean, which amount to trust, how a rate should be computed) is what you add to Genie in each dataset's <strong>Round 2</strong>. Codes are listed here for reference; the paste-ready descriptions live in the dataset sections above.</p>
+  </div>
+</div>
+
+<section id="dd-spending">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Dataset 1</p>
+      <h2>Spending</h2>
+      <p>Catalog <code>fl_gov_demo.spending</code> · grain vendor → contract → many payments · join keys <code>vendor_id</code>, <code>contract_id</code>. State procurement and disbursements: who holds a contract, and what was actually paid against it.</p>
+    </div>
+    <p class="lab-sub"><code>vendors</code> · 200 rows — one row per registered payee</p>
+    <div class="matrix-wrap"><table class="mx">
+      <thead><tr><th style="width:26%">Column</th><th style="width:74%">Meaning</th></tr></thead>
+      <tbody>
+        <tr><td><code>vendor_id</code></td><td>Unique vendor identifier. Join key to <code>contracts</code> and <code>payments</code>.</td></tr>
+        <tr><td><code>vendor_nm</code></td><td>Vendor legal name.</td></tr>
+        <tr><td><code>vendor_type</code></td><td>Organization type: <code>CORP</code>=Corporation, <code>LLC</code>=Limited Liability Company, <code>IND</code>=Individual / sole proprietor, <code>NP</code>=Nonprofit.</td></tr>
+        <tr><td><code>addr_line</code></td><td>Street address. Vendors sharing an address are a planted integrity signal.</td></tr>
+        <tr><td><code>city</code></td><td>City.</td></tr>
+        <tr><td><code>zip</code></td><td>ZIP code.</td></tr>
+        <tr><td><code>tin</code></td><td>Taxpayer Identification Number (federal EIN/SSN). Blank = missing TIN, an integrity flag.</td></tr>
+        <tr><td><code>reg_dt</code></td><td>Date the vendor registered in the state vendor system.</td></tr>
+      </tbody>
+    </table></div>
+    <p class="lab-sub"><code>contracts</code> · 1,196 rows — one row per contract; <code>contract_amt</code> is the ceiling, not money spent</p>
+    <div class="matrix-wrap"><table class="mx">
+      <thead><tr><th style="width:26%">Column</th><th style="width:74%">Meaning</th></tr></thead>
+      <tbody>
+        <tr><td><code>contract_id</code></td><td>Unique contract identifier. Join key to <code>payments</code>.</td></tr>
+        <tr><td><code>vendor_id</code></td><td>Vendor holding the contract.</td></tr>
+        <tr><td><code>agency_cd</code></td><td>Awarding agency: <code>DOT</code>=Transportation, <code>DOC</code>=Corrections, <code>DCF</code>=Children &amp; Families, <code>DOH</code>=Health, <code>DEP</code>=Environmental Protection, <code>DMS</code>=Management Services, <code>DOR</code>=Revenue.</td></tr>
+        <tr><td><code>cat_cd</code></td><td>Commodity/service category: <code>IT</code>, <code>PROF_SVC</code>, <code>CONSTR</code>, <code>MED</code>, <code>MAINT</code>. A procurement category, <em>not</em> an accounting classification — for expenditure type use <code>payments.obj_cd</code>.</td></tr>
+        <tr><td><code>proc_mthd</code></td><td>Procurement method: <code>ITB</code>=Invitation to Bid and <code>RFP</code>=Request for Proposals (both competitive), <code>SS</code>=Sole Source (non-competitive), <code>ST</code>=State Term Contract.</td></tr>
+        <tr><td><code>exec_dt</code></td><td>Contract execution (signing) date.</td></tr>
+        <tr><td><code>end_dt</code></td><td>Contract end date.</td></tr>
+        <tr><td><code>contract_amt</code></td><td>Not-to-exceed contract ceiling (authorized maximum). <strong>Not</strong> actual spend — use <code>payments.pmt_amt</code> for money spent.</td></tr>
+        <tr><td><code>status_cd</code></td><td>Contract status: <code>02</code>=Active, <code>03</code>=Closed, <code>07</code>=Cancelled, <code>09</code>=Pending.</td></tr>
+      </tbody>
+    </table></div>
+    <p class="lab-sub"><code>payments</code> · 18,300 rows — one row per cash disbursement; <code>pmt_amt</code> is actual spend</p>
+    <div class="matrix-wrap"><table class="mx">
+      <thead><tr><th style="width:26%">Column</th><th style="width:74%">Meaning</th></tr></thead>
+      <tbody>
+        <tr><td><code>pmt_id</code></td><td>Unique payment identifier.</td></tr>
+        <tr><td><code>contract_id</code></td><td>Contract the payment is made against.</td></tr>
+        <tr><td><code>vendor_id</code></td><td>Vendor paid.</td></tr>
+        <tr><td><code>invoice_no</code></td><td>Vendor invoice number.</td></tr>
+        <tr><td><code>invoice_dt</code></td><td>Date the invoice was received — the start of the 40-day Florida Prompt Payment Act clock (s.215.422).</td></tr>
+        <tr><td><code>pmt_dt</code></td><td>Date the payment was disbursed. Late when more than 40 days after <code>invoice_dt</code>.</td></tr>
+        <tr><td><code>pmt_amt</code></td><td>Actual cash disbursed to the vendor. Use this for all spend questions.</td></tr>
+        <tr><td><code>obj_cd</code></td><td>FLAIR expenditure object code: <code>111</code>=Salaries &amp; Benefits, <code>261</code>=Operating Expenses, <code>342</code>=Contractual Services, <code>521</code>=Operating Capital Outlay, <code>714</code>=Debt Service, <code>811</code>=Aid to Local Governments.</td></tr>
+        <tr><td><code>fund_src</code></td><td>Funding source: <code>GR</code>=General Revenue (state), <code>TF</code>=Trust Fund (state), <code>FED</code>=Federal. State funds = GR + TF.</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<section id="dd-health" class="band-alt">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Dataset 2</p>
+      <h2>Health</h2>
+      <p>Catalog <code>fl_gov_demo.health</code> · grain county × year (population and deaths also by <code>age_group</code>) · join key <code>county_nm + yr</code>. County vital statistics and health-system capacity. Columns are readable — the lesson is methodology, not decoding.</p>
+    </div>
+    <p class="lab-sub"><code>health_events</code> · 1,005 rows — one row per county × year (2010–2024)</p>
+    <div class="matrix-wrap"><table class="mx">
+      <thead><tr><th style="width:26%">Column</th><th style="width:74%">Meaning</th></tr></thead>
+      <tbody>
+        <tr><td><code>county_nm</code></td><td>Florida county name (67 counties). Join key.</td></tr>
+        <tr><td><code>yr</code></td><td>Calendar year, 2010–2024. Join key.</td></tr>
+        <tr><td><code>births_n</code></td><td>Live births.</td></tr>
+        <tr><td><code>deaths_n</code></td><td>Total deaths, all ages. Dividing by total population gives a <strong>crude</strong> rate, confounded by age — rank outcomes with the age-adjusted rate instead.</td></tr>
+        <tr><td><code>infant_deaths_n</code></td><td>Deaths under age 1. Infant mortality rate = <code>infant_deaths_n / births_n × 1,000</code>. Suppress rates built on fewer than 20 events (NCHS).</td></tr>
+        <tr><td><code>low_bw_births_n</code></td><td>Low-birth-weight births (under 2,500 g).</td></tr>
+        <tr><td><code>drug_od_deaths_n</code></td><td>Drug-overdose deaths.</td></tr>
+      </tbody>
+    </table></div>
+    <p class="lab-sub"><code>population</code> · 5,025 rows — one row per county × year × age band (long format)</p>
+    <div class="matrix-wrap"><table class="mx">
+      <thead><tr><th style="width:26%">Column</th><th style="width:74%">Meaning</th></tr></thead>
+      <tbody>
+        <tr><td><code>county_nm</code>, <code>yr</code></td><td>County and year. Join keys.</td></tr>
+        <tr><td><code>age_group</code></td><td>Age band: <code>0-17</code>, <code>18-44</code>, <code>45-64</code>, <code>65-74</code>, <code>75+</code>.</td></tr>
+        <tr><td><code>pop</code></td><td>Resident population in that age band. Sum across <code>age_group</code> for a county's total population.</td></tr>
+      </tbody>
+    </table></div>
+    <p class="lab-sub"><code>deaths_by_age</code> · 5,025 rows — age-specific deaths</p>
+    <div class="matrix-wrap"><table class="mx">
+      <thead><tr><th style="width:26%">Column</th><th style="width:74%">Meaning</th></tr></thead>
+      <tbody>
+        <tr><td><code>county_nm</code>, <code>yr</code>, <code>age_group</code></td><td>County, year, and age band. Join to <code>population</code> on all three for age-specific death rates.</td></tr>
+        <tr><td><code>deaths_n</code></td><td>Deaths in that county, year, and age band. The basis for age-adjustment (apply the US-2000 standard weights, which are not shipped as a table).</td></tr>
+      </tbody>
+    </table></div>
+    <p class="lab-sub"><code>facilities</code> · 1,005 rows — one row per county × year; health-system capacity</p>
+    <div class="matrix-wrap"><table class="mx">
+      <thead><tr><th style="width:26%">Column</th><th style="width:74%">Meaning</th></tr></thead>
+      <tbody>
+        <tr><td><code>county_nm</code>, <code>yr</code></td><td>County and year. Join keys.</td></tr>
+        <tr><td><code>hosp_cnt</code></td><td>Number of hospitals.</td></tr>
+        <tr><td><code>staffed_beds</code></td><td>Staffed hospital beds.</td></tr>
+        <tr><td><code>pcp_cnt</code></td><td>Primary-care physicians.</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<section id="dd-transport">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Dataset 3</p>
+      <h2>FDOT / Transportation</h2>
+      <p>Catalog <code>fl_gov_demo.transportation</code> · grain project → funding records → change orders · join key <code>proj_id</code>. Capital program delivery: what was planned, funded, spent, and modified.</p>
+    </div>
+    <p class="lab-sub"><code>projects</code> · 500 rows — one row per capital project</p>
+    <div class="matrix-wrap"><table class="mx">
+      <thead><tr><th style="width:26%">Column</th><th style="width:74%">Meaning</th></tr></thead>
+      <tbody>
+        <tr><td><code>proj_id</code></td><td>Unique project identifier. Join key to <code>obligations</code> and <code>change_orders</code>.</td></tr>
+        <tr><td><code>dist_no</code></td><td>FDOT district: <code>1</code>=Southwest, <code>2</code>=Northeast, <code>3</code>=Northwest (Panhandle), <code>4</code>=Southeast, <code>5</code>=Central, <code>6</code>=Miami-Dade/Monroe, <code>7</code>=Tampa Bay, <code>8</code>=Florida's Turnpike Enterprise.</td></tr>
+        <tr><td><code>county_nm</code></td><td>Primary county for the project.</td></tr>
+        <tr><td><code>proj_type</code></td><td>Project type: <code>PAVE</code>=Paving, <code>BRDG</code>=Bridge, <code>SAFETY</code>=Safety, <code>ITS</code>=Intelligent Transportation Systems, <code>RESURF</code>=Resurfacing.</td></tr>
+        <tr><td><code>phase_cd</code></td><td>Current phase: <code>PE</code>=Preliminary Engineering, <code>ROW</code>=Right of Way, <code>CST</code>=Construction.</td></tr>
+        <tr><td><code>status_cd</code></td><td>Project status: <code>ACT</code>=Active, <code>HOLD</code>=On hold, <code>COMP</code>=Complete, <code>PLAN</code>=Planned.</td></tr>
+        <tr><td><code>let_dt</code></td><td>Letting date — when the project was advertised and bid/awarded.</td></tr>
+        <tr><td><code>est_compl_dt</code></td><td>Estimated completion date.</td></tr>
+        <tr><td><code>act_compl_dt</code></td><td>Actual completion date. Null if the project is not yet finished. Delayed = finished after <code>est_compl_dt</code>, or past <code>est_compl_dt</code> and <code>status_cd &lt;&gt; 'COMP'</code>.</td></tr>
+        <tr><td><code>orig_contract_amt</code></td><td>Original contract award amount, before any change orders.</td></tr>
+      </tbody>
+    </table></div>
+    <p class="lab-sub"><code>obligations</code> · 1,558 rows — funding records per project (includes 45 deobligations)</p>
+    <div class="matrix-wrap"><table class="mx">
+      <thead><tr><th style="width:26%">Column</th><th style="width:74%">Meaning</th></tr></thead>
+      <tbody>
+        <tr><td><code>oblig_id</code></td><td>Unique funding-record identifier.</td></tr>
+        <tr><td><code>proj_id</code></td><td>Project funded.</td></tr>
+        <tr><td><code>fund_src</code></td><td>Fund source: <code>IIJA</code>, <code>STP</code> (Surface Transportation Block Grant), <code>NHPP</code> (National Highway Performance Program) are federal-aid; <code>STATE</code>=state funds; <code>TOLL</code>=toll revenue.</td></tr>
+        <tr><td><code>fy</code></td><td>Fiscal year of the funding action (2022–2026).</td></tr>
+        <tr><td><code>auth_amt</code></td><td>Authorized amount — the ceiling for this funding record.</td></tr>
+        <tr><td><code>oblig_amt</code></td><td>Obligated (legally committed) amount; at or below <code>auth_amt</code>.</td></tr>
+        <tr><td><code>expend_amt</code></td><td>Expended (actually spent) amount; at or below <code>oblig_amt</code>.</td></tr>
+        <tr><td><code>oblig_deadline_dt</code></td><td>Deadline to obligate the funds — federal aid is use-it-or-lose-it past this date.</td></tr>
+        <tr><td><code>oblig_type</code></td><td><code>OBL</code>=obligation (adds funds); <code>DEOBL</code>=deobligation (releases funds — <strong>subtract</strong> its <code>oblig_amt</code> when totaling).</td></tr>
+      </tbody>
+    </table></div>
+    <p class="lab-sub"><code>change_orders</code> · 933 rows — contract modifications</p>
+    <div class="matrix-wrap"><table class="mx">
+      <thead><tr><th style="width:26%">Column</th><th style="width:74%">Meaning</th></tr></thead>
+      <tbody>
+        <tr><td><code>co_id</code></td><td>Unique change-order identifier.</td></tr>
+        <tr><td><code>proj_id</code></td><td>Project being modified.</td></tr>
+        <tr><td><code>co_amt</code></td><td>Change-order dollar amount. Over $250,000 it is "major" and requires central-office supplemental-agreement approval.</td></tr>
+        <tr><td><code>co_reason_cd</code></td><td>Reason: <code>DSC</code>=Differing Site Conditions, <code>DE</code>=Design Error, <code>WX</code>=Weather, <code>SC</code>=Scope Change.</td></tr>
+        <tr><td><code>co_status</code></td><td>Status: <code>APPR</code>=Approved, <code>PEND</code>=Pending, <code>REJ</code>=Rejected. Only <code>APPR</code> change orders count as added cost.</td></tr>
+        <tr><td><code>co_dt</code></td><td>Change-order date.</td></tr>
+      </tbody>
+    </table></div>
   </div>
 </section>
 
