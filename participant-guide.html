@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Participant Guide — Genie Hands-on · Florida Government Data Workshop</title>
-<meta name="description" content="Participant guide for the hands-on Databricks Genie portion of the Florida Government Data Analytics workshop. Load a dataset, build a Genie space, ask the questions, add the context that makes them work.">
+<meta name="description" content="Participant guide for the hands-on Databricks Genie portion of the Florida Government Data Analytics workshop. Load a dataset, build a Genie agent, ask the questions, add the context that makes them work.">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -104,7 +104,7 @@
   .lab-body ul:not(.ticks):not(.qlist){margin:12px 0 0;padding-left:22px;color:var(--ink-soft);}
   .lab-body ul:not(.ticks):not(.qlist) li{margin:7px 0;}
   .lab-body strong{color:var(--ink);font-weight:700;}
-  .lab-sub{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--lava-deep);font-weight:500;margin:34px 0 2px;}
+  .lab-sub{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--lava-deep);font-weight:500;margin:34px 0 2px;scroll-margin-top:64px;}
 
   /* ---------- Question lists (status-tagged) ---------- */
   .legend{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0 0;}
@@ -135,6 +135,8 @@
   /* ---------- Cards ---------- */
   .card{background:var(--white);border:1px solid var(--line);padding:24px 26px;margin-top:16px;}
   .card.flag{box-shadow:inset 4px 0 0 var(--lava);}
+  .survey-btn{display:inline-block;font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;background:var(--lava);color:#fff;text-decoration:none;padding:11px 18px;}
+  .survey-btn:hover{background:var(--lava-deep);}
   .card-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;}
   .card .kicker{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--lava-deep);margin:0 0 6px;}
   .card h3{font-size:1.2rem;font-weight:700;margin:0;}
@@ -155,6 +157,27 @@
   .note.flag .nl{background:var(--lava);color:#fff;}
   .note strong{color:var(--ink);}
   .band-alt .note.tip{background:var(--white);border:1px solid var(--line);}
+  /* Per-prompt "what this needs" cheat sheet */
+  details.req{margin-top:10px;}
+  details.req > summary{list-style:none;cursor:pointer;display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:var(--lava-deep);background:var(--lava-wash);border:1px solid #F3C9C0;padding:5px 10px;user-select:none;}
+  details.req > summary::-webkit-details-marker{display:none;}
+  details.req > summary::before{content:"+";font-weight:700;font-size:12px;line-height:1;}
+  details.req[open] > summary::before{content:"\2013";}
+  details.req[open] > summary{background:var(--ink);color:#fff;border-color:var(--ink);}
+  .req-body{margin-top:10px;padding:13px 16px;background:var(--oat);border:1px solid var(--line);border-left:3px solid var(--lava);font-size:.88rem;color:var(--ink-soft);}
+  .band-alt .req-body{background:var(--white);}
+  .req-body ul{margin:0;padding:0;list-style:none;}
+  .req-body li{padding:7px 0;border-bottom:1px solid var(--line);}
+  .req-body li:first-child{padding-top:0;}
+  .req-body li:last-child{border-bottom:0;}
+  .req-tag{display:inline-block;font-family:var(--mono);font-size:9.5px;font-weight:500;letter-spacing:.05em;text-transform:uppercase;padding:2px 7px;margin-right:8px;border:1px solid transparent;}
+  .req-tag.comment{background:var(--oat-mid);color:var(--ink-soft);border-color:var(--line);}
+  .req-tag.instruction{background:#E7EEF0;color:var(--ink);border-color:#C7D6DB;}
+  .req-tag.metric{background:var(--lava-wash);color:var(--lava-deep);border-color:#F3C9C0;}
+  .req-tag.ok{background:#E4F2E8;color:#1E6B3A;border-color:#BFE0C9;}
+  .req-body code{font-family:var(--mono);font-size:.85em;color:var(--ink);}
+  .req-how{display:block;margin-top:10px;font-family:var(--mono);font-size:10px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);}
+  @media print{ details.req > summary{display:none;} details.req > .req-body{display:block!important;margin-top:6px;} }
 
   /* ---------- Code ---------- */
   code{font-family:var(--mono);font-size:.86em;background:var(--oat-mid);padding:2px 6px;color:var(--lava-deep);}
@@ -204,7 +227,7 @@
     <p class="eyebrow">Participant guide · Genie hands-on</p>
     <h1>Florida Government Data Workshop</h1>
     <hr class="rule">
-    <p class="lede">Everything for the hands-on portion in one place — load a dataset, build your first Genie space, ask a set of questions, then add the context that turns Genie's confident-but-wrong answers into governed, correct ones. The lesson you'll feel first-hand: <strong>context is the product</strong>.</p>
+    <p class="lede">Everything for the hands-on portion in one place — load a dataset, build your first Genie agent, ask a set of questions, then add the context that turns Genie's confident-but-wrong answers into governed, correct ones. The lesson you'll feel first-hand: <strong>context is the product</strong>.</p>
 
     <dl class="facts">
       <div class="fact"><dt>When</dt><dd>Tue Oct 6, 2026 · 12:30–4:30 PM ET</dd></div>
@@ -219,7 +242,7 @@
   <div class="wrap">
     <a href="#session">Overview</a>
     <a href="#load">Load data</a>
-    <a href="#genie">Genie space</a>
+    <a href="#genie">Genie agent</a>
     <span class="mb-sep"></span>
     <a href="#spending">Spending</a>
     <a href="#health">Health</a>
@@ -227,6 +250,8 @@
     <span class="mb-sep"></span>
     <a href="#metrics">Metric views</a>
     <a href="#dashboards">Dashboards</a>
+    <span class="mb-sep"></span>
+    <a href="#feedback">Feedback</a>
   </div>
 </nav>
 
@@ -235,7 +260,7 @@
   <div class="wrap">
     <p class="eyebrow">Part 1</p>
     <h2>Get set up</h2>
-    <p>Load one dataset and stand up a Genie space, so you're asking questions from the first minute rather than wrestling with setup.</p>
+    <p>Load one dataset and stand up a Genie agent, so you're asking questions from the first minute rather than wrestling with setup.</p>
   </div>
 </div>
 
@@ -250,7 +275,7 @@
 
     <ol class="steps">
       <li><strong>Load one dataset</strong> into your workspace using a ready-made notebook (§02).</li>
-      <li><strong>Build a Genie space</strong> over its tables (§03).</li>
+      <li><strong>Build a Genie agent</strong> over its tables (§03).</li>
       <li><strong>Round 1 — ask the questions</strong> with no context. Most land. A few come back confidently wrong. Learning to spot which is the point.</li>
       <li><strong>Round 2 — add context</strong> (column &amp; table descriptions, Genie instructions, and metric views), then re-ask and watch the wrong answers become governed and correct.</li>
     </ol>
@@ -304,18 +329,18 @@
   </div>
 </section>
 
-<!-- ---- 03 Genie space ---- -->
+<!-- ---- 03 Genie agent ---- -->
 <section id="genie">
   <div class="wrap">
     <div class="section-head">
       <p class="eyebrow">03 · Stand it up</p>
-      <h2>Build a Genie space</h2>
-      <p>A Genie space lets you ask questions of your tables in plain English. Point it at the three tables you just loaded and start with Round 1 — <em>before</em> adding any context.</p>
+      <h2>Build a Genie agent</h2>
+      <p>A Genie agent lets you ask questions of your tables in plain English. Point it at the three tables you just loaded and start with Round 1 — <em>before</em> adding any context.</p>
     </div>
     <ol class="steps">
       <li>In the left sidebar, open <strong>Genie</strong> and click <strong>New</strong>.</li>
       <li>Choose the three tables in your schema — <code>fl_gov_demo.spending</code> (or <code>.health</code> / <code>.transportation</code>).</li>
-      <li>Pick your SQL warehouse and create the space.</li>
+      <li>Pick your SQL warehouse and create the agent.</li>
       <li>Go straight to <strong>Round 1</strong> — ask the questions in the dataset sections below with no context yet.</li>
     </ol>
 
@@ -325,10 +350,10 @@
       <table class="mx">
         <thead><tr><th style="width:22%">Tool</th><th style="width:40%">Fixes…</th><th style="width:38%">Where</th></tr></thead>
         <tbody>
-          <tr><td><span class="mx-ctrl">Column description</span></td><td>Internal codes Genie can't decode (FLAIR object codes, FDOT districts, fund groupings)</td><td>Column comment (Catalog Explorer) or the space's Instructions / Knowledge</td></tr>
+          <tr><td><span class="mx-ctrl">Column description</span></td><td>Internal codes Genie can't decode (FLAIR object codes, FDOT districts, fund groupings)</td><td>Column comment (Catalog Explorer) or the agent's Instructions / Knowledge</td></tr>
           <tr><td><span class="mx-ctrl">Table description</span></td><td>What a table's grain / rows really mean (e.g. deobligation rows that must be subtracted)</td><td>Table comment (Catalog Explorer)</td></tr>
-          <tr><td><span class="mx-ctrl">Genie instruction</span></td><td>Undefined business rules Genie guesses wrong (Florida fiscal year, the 40-day Prompt Payment rule, “duplicate”, the $35K split threshold, “approved only”)</td><td>Genie space → <strong>Instructions</strong> (plain-English rules; example SQL)</td></tr>
-          <tr><td><span class="mx-ctrl">Metric view <span class="chip lava" style="margin-left:4px;">governed</span></span></td><td>KPIs that must compute one agreed way (prompt-payment compliance by Florida fiscal year, age-adjusted mortality, net obligations)</td><td>Unity Catalog <strong>Metric View</strong> — define the measure once, then add it to the space (paste-ready SQL in the <a href="#metrics">Metric views appendix</a>)</td></tr>
+          <tr><td><span class="mx-ctrl">Genie instruction</span></td><td>Undefined business rules Genie guesses wrong (Florida fiscal year, the 40-day Prompt Payment rule, “duplicate”, the $35K split threshold, “approved only”)</td><td>Genie agent → <strong>Instructions</strong> (plain-English rules; example SQL)</td></tr>
+          <tr><td><span class="mx-ctrl">Metric view <span class="chip lava" style="margin-left:4px;">governed</span></span></td><td>KPIs that must compute one agreed way (prompt-payment compliance by Florida fiscal year, age-adjusted mortality, net obligations)</td><td>Unity Catalog <strong>Metric View</strong> — define the measure once, then add it to the agent (paste-ready SQL in the <a href="#metrics">Metric views appendix</a>)</td></tr>
         </tbody>
       </table>
     </div>
@@ -405,7 +430,7 @@
           </tbody>
         </table>
       </div>
-      <p class="lab-sub">Round 2 · step 1 — column &amp; table descriptions</p>
+      <p class="lab-sub" id="spending-desc">Round 2 · step 1 — column &amp; table descriptions</p>
       <p>Set these in <strong>Catalog Explorer</strong> (table → column → edit description), or paste the SQL below. Catalog comments flow into chart labels and every tool — not just Genie.</p>
       <div class="matrix-wrap">
         <table class="mx">
@@ -448,15 +473,15 @@ ALTER TABLE fl_gov_demo.spending.payments ALTER COLUMN invoice_dt COMMENT
   'Date the vendor invoice was received. Under the Florida Prompt Payment Act (s.215.422) a payment is late if pmt_dt is more than 40 days after invoice_dt; on time = 40 days or fewer (not Net-30).';
 ALTER TABLE fl_gov_demo.spending.payments ALTER COLUMN pmt_amt COMMENT
   'Actual cash disbursed to the vendor. Use this for spend.';</code></pre>
-      <p class="lab-sub">Round 2 · step 2 — Genie instructions</p>
-      <p>Genie space → <strong>Configure → Instructions</strong> → paste as general instructions:</p>
+      <p class="lab-sub" id="spending-instr">Round 2 · step 2 — Genie instructions</p>
+      <p>Genie agent → <strong>Configure → Instructions</strong> → paste as general instructions:</p>
 <pre class="wrap-pre"><code>- Fiscal year means the Florida state fiscal year, July 1 to June 30, named for the year it ends. FY2026 = 2025-07-01 through 2026-06-30. Derive it from payments.pmt_dt.
 - A payment is late under the Florida Prompt Payment Act (s.215.422) when payments.pmt_dt is more than 40 days after payments.invoice_dt. On time = 40 days or fewer.
 - A potential duplicate payment is two payments with the same vendor_id and pmt_amt, different pmt_id, made within 3 days of each other.
 - Split purchasing = 3 or more contracts to the same vendor_id, each with contracts.contract_amt under $35,000 (the Category Two threshold), executed within 30 days of each other.
 - Spend always means payments.pmt_amt, never contracts.contract_amt.</code></pre>
       <p class="lab-sub">Round 2 · step 3 — metric view</p>
-      <p>Create <code>fl_gov_demo.spending.payment_metrics</code> (paste-ready SQL in the <a href="#metrics-spending">metric-views appendix</a>), then add it to the space as a data source.</p>
+      <p>Create <code>fl_gov_demo.spending.payment_metrics</code> (paste-ready SQL in the <a href="#metrics-spending">metric-views appendix</a>), then add it to the agent as a data source.</p>
       <div class="note flag"><span class="nl">Takeaway</span><div>Every “Wrong” answer above <em>looked</em> authoritative — Genie confidently applied the federal fiscal year, Net-30, and its own duplicate rule. Three layers fix it: <strong>column descriptions</strong> (decode the codes), <strong>instructions</strong> (the rules), and one <strong>metric view</strong> that pins the fiscal year, the 40-day rule, and the state/federal grouping so every answer — and every dashboard tile — agrees.</div></div>
     </div>
   </div>
@@ -481,7 +506,7 @@ ALTER TABLE fl_gov_demo.spending.payments ALTER COLUMN pmt_amt COMMENT
         </tbody>
       </table>
     </div>
-    <div class="note tip"><span class="nl">On purpose</span><div>The US-2000 <strong>standard-population weights</strong> needed to age-adjust are <em>not</em> shipped as a table — they are the governed context you add in the metric view (Round 2). If they sat in the space, Genie would find and use them; withholding them is what makes the raw answer a crude rate.</div></div>
+    <div class="note tip"><span class="nl">On purpose</span><div>The US-2000 <strong>standard-population weights</strong> needed to age-adjust are <em>not</em> shipped as a table — they are the governed context you add in the metric view (Round 2). If they sat in the agent, Genie would find and use them; withholding them is what makes the raw answer a crude rate.</div></div>
     <div class="lab-body">
       <p class="lab-sub">Round 1 · warm-up</p>
       <ul class="qlist">
@@ -517,7 +542,7 @@ ALTER TABLE fl_gov_demo.spending.payments ALTER COLUMN pmt_amt COMMENT
           </tbody>
         </table>
       </div>
-      <p class="lab-sub">Round 2 · step 1 — column &amp; table descriptions</p>
+      <p class="lab-sub" id="health-desc">Round 2 · step 1 — column &amp; table descriptions</p>
       <p>Set these in <strong>Catalog Explorer</strong> (table → column → edit description), or paste the SQL below. Catalog comments flow into chart labels and every tool — not just Genie.</p>
       <div class="matrix-wrap">
         <table class="mx">
@@ -539,12 +564,12 @@ ALTER TABLE fl_gov_demo.health.health_events ALTER COLUMN deaths_n COMMENT
   'Total deaths (all ages). Dividing by total population gives a CRUDE rate, which is confounded by age; rank outcomes with the age-adjusted rate.';
 ALTER TABLE fl_gov_demo.health.health_events ALTER COLUMN infant_deaths_n COMMENT
   'Deaths under age 1. Infant mortality rate = infant_deaths_n / births_n x 1,000. Rates with fewer than 20 events are statistically unreliable (NCHS) and should be suppressed.';</code></pre>
-      <p class="lab-sub">Round 2 · step 2 — Genie instructions</p>
-      <p>Genie space → <strong>Configure → Instructions</strong> → paste as general instructions:</p>
+      <p class="lab-sub" id="health-instr">Round 2 · step 2 — Genie instructions</p>
+      <p>Genie agent → <strong>Configure → Instructions</strong> → paste as general instructions:</p>
 <pre class="wrap-pre"><code>- When asked for the worst, highest, or lowest mortality, rank counties by the age-adjusted death rate (county_mortality_metrics.age_adjusted_death_rate_per_100k), not the crude rate.
 - Follow the NCHS reliability standard: do not rank or report a rate whose numerator is fewer than 20 events; label it statistically unreliable instead.</code></pre>
       <p class="lab-sub">Round 2 · step 3 — metric view</p>
-      <p>Create <code>fl_gov_demo.health.county_mortality_metrics</code> (paste-ready SQL in the <a href="#metrics-health">metric-views appendix</a>), then add it to the space as a data source.</p>
+      <p>Create <code>fl_gov_demo.health.county_mortality_metrics</code> (paste-ready SQL in the <a href="#metrics-health">metric-views appendix</a>), then add it to the agent as a data source.</p>
       <div class="note flag"><span class="nl">Takeaway</span><div>Genie's arithmetic was right every time. What it lacked was <strong>methodology</strong>: age-adjust before ranking, and suppress rates built on fewer than 20 events. Pin the method in a metric view and an instruction, and every analyst gets the same governed rate.</div></div>
     </div>
   </div>
@@ -606,7 +631,7 @@ ALTER TABLE fl_gov_demo.health.health_events ALTER COLUMN infant_deaths_n COMMEN
           </tbody>
         </table>
       </div>
-      <p class="lab-sub">Round 2 · step 1 — column &amp; table descriptions</p>
+      <p class="lab-sub" id="transport-desc">Round 2 · step 1 — column &amp; table descriptions</p>
       <p>Set these in <strong>Catalog Explorer</strong> (table → column → edit description), or paste the SQL below. Catalog comments flow into chart labels and every tool — not just Genie.</p>
       <div class="matrix-wrap">
         <table class="mx">
@@ -646,14 +671,14 @@ ALTER TABLE fl_gov_demo.transportation.change_orders ALTER COLUMN co_reason_cd C
   'Reason. DSC=Differing Site Conditions, DE=Design Error, WX=Weather, SC=Scope Change.';
 ALTER TABLE fl_gov_demo.transportation.change_orders ALTER COLUMN co_amt COMMENT
   'Change-order dollar amount. A change order over $250,000 is ''major'' and requires central-office supplemental-agreement approval.';</code></pre>
-      <p class="lab-sub">Round 2 · step 2 — Genie instructions</p>
-      <p>Genie space → <strong>Configure → Instructions</strong> → paste as general instructions:</p>
+      <p class="lab-sub" id="transport-instr">Round 2 · step 2 — Genie instructions</p>
+      <p>Genie agent → <strong>Configure → Instructions</strong> → paste as general instructions:</p>
 <pre class="wrap-pre"><code>- A delayed project either finished late (projects.act_compl_dt after est_compl_dt) or is past its est_compl_dt and not yet complete (status_cd &lt;&gt; 'COMP'). Count both.
 - Change-order cost counts only approved change orders (change_orders.co_status = 'APPR').
 - A major change order is one with change_orders.co_amt over $250,000; it requires central-office (supplemental agreement) approval.
 - Total obligations = SUM(oblig_amt) for oblig_type 'OBL' minus SUM(oblig_amt) for oblig_type 'DEOBL'.</code></pre>
       <p class="lab-sub">Round 2 · step 3 — metric view</p>
-      <p>Create <code>fl_gov_demo.transportation.capital_program_metrics</code> (paste-ready SQL in the <a href="#metrics-fdot">metric-views appendix</a>), then add it to the space as a data source.</p>
+      <p>Create <code>fl_gov_demo.transportation.capital_program_metrics</code> (paste-ready SQL in the <a href="#metrics-fdot">metric-views appendix</a>), then add it to the agent as a data source.</p>
       <div class="note flag"><span class="nl">Takeaway</span><div>The traps are federal-aid habits Genie can't know: <strong>deobligations</strong> are subtractions, change orders don't count until <strong>approved</strong>, and “major” is a <strong>$250K</strong> policy line. Each is one sentence of context.</div></div>
     </div>
   </div>
@@ -678,7 +703,7 @@ ALTER TABLE fl_gov_demo.transportation.change_orders ALTER COLUMN co_amt COMMENT
     <ol class="steps">
       <li><strong>UI builder.</strong> In <strong>Catalog Explorer</strong>, open a table → <strong>Create → Metric view</strong>. The editor opens with a <strong>visual (UI) tab</strong> and a <strong>YAML tab</strong> — two views of the same definition; add dimensions and measures in either.</li>
       <li><strong>SQL.</strong> Run a <code>CREATE VIEW … WITH METRICS LANGUAGE YAML</code> statement in the SQL editor or a notebook — the templates below.</li>
-      <li>In your <strong>Genie space</strong>, add the metric view as a source so rate questions resolve to the governed measure instead of a raw count.</li>
+      <li>In your <strong>Genie agent</strong>, add the metric view as a source so rate questions resolve to the governed measure instead of a raw count.</li>
     </ol>
     <div class="note tip"><span class="nl">YAML keys</span><div><code>version</code>, <code>source</code> (a SELECT), optional <code>joins</code> / <code>filter</code>, <code>fields</code> (dimensions), and <code>measures</code> (aggregates). Each measure is an aggregate such as <code>SUM(a) / SUM(b)</code>, so the rate stays correct at any grouping — statewide or per-county.</div></div>
   </div>
@@ -793,9 +818,35 @@ $$;</code></pre>
   <div class="wrap">
     <p class="eyebrow">Appendix B · if time allows</p>
     <h2>AI/BI dashboards</h2>
-    <p>Turn your space into an AI/BI dashboard. Each opens with a row of KPI tiles, then charts. The rate-based charts reuse the same metric views you defined for Genie — context, once defined, powers both.</p>
+    <p>Turn your agent's tables into an AI/BI dashboard — built entirely by <strong>asking Genie</strong>, no SQL. Each dashboard opens with a row of KPI tiles, then charts. The rate-based tiles reuse the same metric views you defined for Genie — context, once defined, powers both.</p>
   </div>
 </div>
+
+<section id="dash-how">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">How to build it</p>
+      <h2>Build it with Genie</h2>
+      <p>You won't write a line of SQL. Ask Genie each question in the tables below, then turn its answer into a dashboard tile. Everything runs on serverless — there's no warehouse to pick.</p>
+    </div>
+    <div class="note flag"><span class="nl">What these prompts assume</span><div>
+      <p style="margin:6px 0 0;">The prompts below assume you've already done <strong>Round 2</strong> for your dataset — the same context that makes Genie's written answers trustworthy makes the dashboard tiles trustworthy. Without it, Genie still answers, but it charts a <em>confidently wrong</em> number, not an obvious error. Build the context first (in the dataset sections above), then build the dashboard:</p>
+      <ol style="margin:8px 0 0;padding-left:18px;">
+        <li><strong>Dataset loaded &amp; agent set up.</strong> The <a href="#load">§02</a> notebook has run and your <a href="#genie">§03</a> Genie agent points at the three tables.</li>
+        <li><strong>Column comments are set.</strong> They decode the codes <em>and</em> propagate into chart axis labels — so a bar grouped by agency, district, or category reads in plain English, not <code>agency_cd</code> values (<a href="#genie">§03 — “Where you add it matters”</a>). A Genie <em>instruction</em> alone fixes the written answer but leaves the axis showing raw codes.</li>
+        <li><strong>Genie instructions are in place.</strong> The business rules Genie can't guess — Florida fiscal year (Jul–Jun), the 40-day Prompt Payment clock, what “active” means, approved-only change orders, net-of-deobligation — must be stated, or tiles like “spend by fiscal year” and “change-order % by type” chart the wrong figure.</li>
+        <li><strong>Metric views are added to the agent.</strong> The health age-adjusted map and the FDOT net-obligated / expenditure-rate tiles only compute correctly if you've added the <a href="#metrics">Appendix&nbsp;A</a> metric view — otherwise Genie falls back to the raw (crude / gross) number.</li>
+      </ol>
+    </div></div>
+    <ol class="steps">
+      <li><strong>Ask Genie a question</strong> from the tables below. It answers and renders a chart.</li>
+      <li><strong>Not the chart you wanted?</strong> Tell it (“<em>make it a bar chart</em>”) or switch the visualization type on the result.</li>
+      <li><strong>Click ⋮ → Add to dashboard.</strong> The first one creates the dashboard; after that, add each new tile to the same one.</li>
+      <li><strong>Repeat, then arrange.</strong> Open the dashboard, lay out the tiles, add the filters listed per dataset, and toggle <strong>Draft → Published</strong> to share a read-only copy.</li>
+    </ol>
+    <div class="note tip"><span class="nl">KPI tiles</span><div>Same idea — ask Genie for the single number (e.g. “<em>What's our total actual spend?</em>”), then set the visualization to <strong>Counter</strong>. The measure beside each KPI below tells you what to ask for.</div></div>
+  </div>
+</section>
 
 <section id="dash-spending">
   <div class="wrap">
@@ -809,15 +860,40 @@ $$;</code></pre>
     </div>
     <div class="matrix-wrap">
       <table class="mx">
-        <thead><tr><th style="width:20%">Chart</th><th style="width:44%">What it shows</th><th style="width:36%">Fields / measure</th></tr></thead>
+        <thead><tr><th style="width:16%">Chart</th><th style="width:34%">What it shows</th><th style="width:50%">Ask Genie</th></tr></thead>
         <tbody>
-          <tr><td>Bar</td><td>Actual spend by agency</td><td>SUM(pmt_amt) by agency_cd</td></tr>
-          <tr><td>Clustered bar</td><td>Contracted ceiling vs. actually paid, by agency</td><td>SUM(contract_amt), SUM(pmt_amt) by agency_cd</td></tr>
-          <tr><td>Column</td><td>Spend by category</td><td>SUM(pmt_amt) by cat_cd</td></tr>
-          <tr><td>Line</td><td>Spend over time</td><td>SUM(pmt_amt) by fiscal year / month of pmt_dt</td></tr>
-          <tr><td>Horizontal bar</td><td>Top 10 vendors by total payments</td><td>SUM(pmt_amt) by vendor_nm (join vendors)</td></tr>
-          <tr><td>Donut</td><td>Spend share by procurement method (surfaces sole-source)</td><td>SUM(pmt_amt) by proc_mthd</td></tr>
-          <tr><td>Table</td><td>Potential duplicate / off-cycle payments (audit)</td><td>vendor_nm, pmt_amt, pmt_dt, flag reason</td></tr>
+          <tr><td>Bar</td><td>Actual spend by agency</td><td>“Show total payments by agency as a bar chart.”
+            <details class="req"><summary>What this needs</summary><div class="req-body"><ul>
+              <li><span class="req-tag comment">Column comment</span><code>contracts.agency_cd</code> — labels the bars DOT=Transportation, DOC=Corrections… instead of raw codes.</li>
+              <li><span class="req-tag ok">Number is fine raw</span>Spend already resolves to <code>payments.pmt_amt</code>; the comment only fixes the axis labels.</li>
+            </ul><span class="req-how">How → <a href="#spending-desc">Spending · Round 2 step 1</a></span></div></details></td></tr>
+          <tr><td>Clustered bar</td><td>Contracted ceiling vs. actually paid, by agency</td><td>“Compare total contract amount to total payments by agency as a grouped bar chart.”
+            <details class="req"><summary>What this needs</summary><div class="req-body"><ul>
+              <li><span class="req-tag comment">Table + column comment</span><code>contracts.contract_amt</code> marked as the not-to-exceed ceiling (not spend) — or the two bars conflate.</li>
+              <li><span class="req-tag comment">Column comment</span><code>payments.pmt_amt</code> = actual cash disbursed.</li>
+              <li><span class="req-tag comment">Column comment</span><code>contracts.agency_cd</code> for the axis labels.</li>
+            </ul><span class="req-how">How → <a href="#spending-desc">Spending · Round 2 step 1</a></span></div></details></td></tr>
+          <tr><td>Column</td><td>Spend by category</td><td>“Show total payments by category as a column chart.”
+            <details class="req"><summary>What this needs</summary><div class="req-body"><ul>
+              <li><span class="req-tag comment">Column comment</span><code>contracts.cat_cd</code> — decodes IT / CONSTR / MED… for the axis and notes it's a commodity category (not an accounting class).</li>
+            </ul><span class="req-how">How → <a href="#spending-desc">Spending · Round 2 step 1</a></span></div></details></td></tr>
+          <tr><td>Line</td><td>Spend over time</td><td>“Plot total payments by month as a line chart.”
+            <details class="req"><summary>What this needs</summary><div class="req-body"><ul>
+              <li><span class="req-tag ok">Nothing to add</span>Works on the raw tables. If you group by <em>fiscal year</em> instead of month, add the Florida fiscal-year instruction.</li>
+            </ul><span class="req-how">How → <a href="#spending-instr">Spending · Round 2 step 2</a></span></div></details></td></tr>
+          <tr><td>Horizontal bar</td><td>Top 10 vendors by total payments</td><td>“What are the top 10 vendors by total payments? Show as a horizontal bar chart.”
+            <details class="req"><summary>What this needs</summary><div class="req-body"><ul>
+              <li><span class="req-tag ok">Nothing to add</span>Genie joins <code>vendors</code> and ranks correctly on the raw tables.</li>
+            </ul></div></details></td></tr>
+          <tr><td>Donut</td><td>Spend share by procurement method (surfaces sole-source)</td><td>“Show the share of total payments by procurement method as a donut chart.”
+            <details class="req"><summary>What this needs</summary><div class="req-body"><ul>
+              <li><span class="req-tag comment">Column comment</span><code>contracts.proc_mthd</code> — decodes ITB / RFP / SS / ST so the sole-source slice is readable; without it the slices show raw codes.</li>
+            </ul><span class="req-how">How → <a href="#spending-desc">Spending · Round 2 step 1</a></span></div></details></td></tr>
+          <tr><td>Table</td><td>Potential duplicate / off-cycle payments (audit)</td><td>“List payments flagged as potential duplicates or off-cycle, with vendor, amount, date, and the reason.”
+            <details class="req"><summary>What this needs</summary><div class="req-body"><ul>
+              <li><span class="req-tag instruction">Genie instruction</span>The duplicate rule — same <code>vendor_id</code> and <code>pmt_amt</code>, different <code>pmt_id</code>, within 3 days. Without it Genie invents its own rule.</li>
+              <li><span class="req-tag ok">Partly raw</span>Weekend and round-dollar payments are detectable on the raw tables.</li>
+            </ul><span class="req-how">How → <a href="#spending-instr">Spending · Round 2 step 2</a></span></div></details></td></tr>
         </tbody>
       </table>
     </div>
@@ -837,14 +913,32 @@ $$;</code></pre>
     </div>
     <div class="matrix-wrap">
       <table class="mx">
-        <thead><tr><th style="width:20%">Chart</th><th style="width:44%">What it shows</th><th style="width:36%">Fields / measure</th></tr></thead>
+        <thead><tr><th style="width:16%">Chart</th><th style="width:34%">What it shows</th><th style="width:50%">Ask Genie</th></tr></thead>
         <tbody>
-          <tr><td>Choropleth map</td><td>Age-adjusted death rate by county (uses the metric view)</td><td>age_adjusted_death_rate_per_100k by county_nm</td></tr>
-          <tr><td>Bar</td><td>Top 10 counties: crude vs. age-adjusted rate (the reorder)</td><td>crude_death_rate_per_100k, age_adjusted_death_rate_per_100k by county_nm</td></tr>
-          <tr><td>Line</td><td>Statewide drug-OD and infant-death trend by year</td><td>SUM(drug_od_deaths_n), SUM(infant_deaths_n) by yr</td></tr>
-          <tr><td>Scatter</td><td>PCPs per capita vs. age-adjusted death rate, by county</td><td>pcp per 100k (x) vs age_adjusted_death_rate_per_100k (y), point = county</td></tr>
-          <tr><td>Bar</td><td>Staffed beds per capita, lowest-served counties</td><td>staffed_beds / SUM(pop) * 100000 by county_nm (ascending)</td></tr>
-          <tr><td>Table</td><td>County detail</td><td>county_nm, deaths_n, crude & age-adjusted rate</td></tr>
+          <tr><td>Choropleth map</td><td>Age-adjusted death rate by county (uses the metric view)</td><td>“Map the age-adjusted death rate per 100,000 by county.”
+            <details class="req"><summary>What this needs</summary><div class="req-body"><ul>
+              <li><span class="req-tag metric">Metric view</span><code>county_mortality_metrics</code> added to the agent — it carries the US-2000 standard weights. Without it Genie maps the <em>crude</em> rate, which just ranks the oldest counties.</li>
+            </ul><span class="req-how">How → <a href="#metrics-health">Appendix A · county_mortality_metrics</a></span></div></details></td></tr>
+          <tr><td>Bar</td><td>Top 10 counties: crude vs. age-adjusted rate (the reorder)</td><td>“For the 10 counties with the highest crude death rate, show their crude and age-adjusted rates side by side as a bar chart.”
+            <details class="req"><summary>What this needs</summary><div class="req-body"><ul>
+              <li><span class="req-tag metric">Metric view</span><code>county_mortality_metrics</code> for the age-adjusted series (the crude series is correct raw — the point is the reorder between them).</li>
+            </ul><span class="req-how">How → <a href="#metrics-health">Appendix A · county_mortality_metrics</a></span></div></details></td></tr>
+          <tr><td>Line</td><td>Statewide drug-OD and infant-death trend by year</td><td>“Plot total drug overdose deaths and infant deaths by year as a line chart.”
+            <details class="req"><summary>What this needs</summary><div class="req-body"><ul>
+              <li><span class="req-tag ok">Nothing to add</span>Both counts chart correctly on the raw tables.</li>
+            </ul></div></details></td></tr>
+          <tr><td>Scatter</td><td>PCPs per capita vs. age-adjusted death rate, by county</td><td>“Show a scatter plot of primary care physicians per 100k against the age-adjusted death rate, one point per county.”
+            <details class="req"><summary>What this needs</summary><div class="req-body"><ul>
+              <li><span class="req-tag metric">Metric view</span><code>county_mortality_metrics</code> for the y-axis age-adjusted rate; PCPs per 100k is correct raw.</li>
+            </ul><span class="req-how">How → <a href="#metrics-health">Appendix A · county_mortality_metrics</a></span></div></details></td></tr>
+          <tr><td>Bar</td><td>Staffed beds per capita, lowest-served counties</td><td>“Which counties have the fewest staffed hospital beds per 100k residents? Show as a bar chart, lowest first.”
+            <details class="req"><summary>What this needs</summary><div class="req-body"><ul>
+              <li><span class="req-tag ok">Nothing to add</span>Beds-per-capita works on the raw tables.</li>
+            </ul></div></details></td></tr>
+          <tr><td>Table</td><td>County detail</td><td>“List each county with its deaths, crude death rate, and age-adjusted death rate.”
+            <details class="req"><summary>What this needs</summary><div class="req-body"><ul>
+              <li><span class="req-tag metric">Metric view</span><code>county_mortality_metrics</code> for the age-adjusted column (deaths and crude rate are raw-correct).</li>
+            </ul><span class="req-how">How → <a href="#metrics-health">Appendix A · county_mortality_metrics</a></span></div></details></td></tr>
         </tbody>
       </table>
     </div>
@@ -865,18 +959,59 @@ $$;</code></pre>
     </div>
     <div class="matrix-wrap">
       <table class="mx">
-        <thead><tr><th style="width:20%">Chart</th><th style="width:44%">What it shows</th><th style="width:36%">Fields / measure</th></tr></thead>
+        <thead><tr><th style="width:16%">Chart</th><th style="width:34%">What it shows</th><th style="width:50%">Ask Genie</th></tr></thead>
         <tbody>
-          <tr><td>Bar</td><td>Projects by district</td><td>COUNT(proj_id) by dist_no (decoded)</td></tr>
-          <tr><td>Combo</td><td>Authorized / net-obligated / expended by fund source</td><td>authorized, obligated, expended (metric view — net of deobligations) by fund_source</td></tr>
-          <tr><td>Line</td><td>Net obligation vs. expenditure by fiscal year (burn-down)</td><td>obligated, expended (metric view) by fiscal_year</td></tr>
-          <tr><td>Bar</td><td>Avg cumulative change-order % by project type (bridge vs. paving, APPR only)</td><td>AVG(approved CO %) by proj_type</td></tr>
-          <tr><td>Gauge / bar</td><td>Expenditure rate by district</td><td>expenditure_rate (metric view) by district</td></tr>
-          <tr><td>Table</td><td>At-risk IIJA obligations near deadline (the “money” table)</td><td>proj_id, dist_no, auth_amt, oblig_amt, unobligated, oblig_deadline_dt — soonest first</td></tr>
+          <tr><td>Bar</td><td>Projects by district</td><td>“How many projects are in each district? Show as a bar chart.”
+            <details class="req"><summary>What this needs</summary><div class="req-body"><ul>
+              <li><span class="req-tag comment">Column comment</span><code>projects.dist_no</code> — labels the bars with FDOT region names (1=Southwest … 8=Turnpike); the count is correct raw.</li>
+            </ul><span class="req-how">How → <a href="#transport-desc">FDOT · Round 2 step 1</a></span></div></details></td></tr>
+          <tr><td>Combo</td><td>Authorized / net-obligated / expended by fund source (metric view — net of deobligations)</td><td>“Show authorized, net obligated, and expended amounts by fund source.”
+            <details class="req"><summary>What this needs</summary><div class="req-body"><ul>
+              <li><span class="req-tag metric">Metric view</span><code>capital_program_metrics</code> — the <code>obligated</code> measure subtracts DEOBL rows. Without it Genie <em>adds</em> deobligations and overstates the total.</li>
+              <li><span class="req-tag comment">Column comment</span><code>obligations.fund_src</code> — labels IIJA / STP / NHPP / STATE / TOLL.</li>
+            </ul><span class="req-how">How → <a href="#metrics-fdot">Appendix A · capital_program_metrics</a> · <a href="#transport-desc">FDOT step 1</a></span></div></details></td></tr>
+          <tr><td>Line</td><td>Net obligation vs. expenditure by fiscal year (burn-down, metric view)</td><td>“Plot net obligated versus expended by fiscal year as a line chart.”
+            <details class="req"><summary>What this needs</summary><div class="req-body"><ul>
+              <li><span class="req-tag metric">Metric view</span><code>capital_program_metrics</code> — net obligated by fiscal year. Raw, Genie plots the gross figure (counts deobligations as spend).</li>
+            </ul><span class="req-how">How → <a href="#metrics-fdot">Appendix A · capital_program_metrics</a></span></div></details></td></tr>
+          <tr><td>Bar</td><td>Avg cumulative change-order % by project type (bridge vs. paving, APPR only)</td><td>“What's the average approved change-order percentage by project type? Show as a bar chart.”
+            <details class="req"><summary>What this needs</summary><div class="req-body"><ul>
+              <li><span class="req-tag instruction">Instruction + comment</span><code>change_orders.co_status</code> — count <em>approved</em> (APPR) change orders only; otherwise pending and rejected ones inflate the percentage.</li>
+              <li><span class="req-tag comment">Column comment</span><code>projects.proj_type</code> — labels the bars Bridge / Paving / Safety…</li>
+            </ul><span class="req-how">How → <a href="#transport-desc">FDOT · Round 2 steps 1–2</a></span></div></details></td></tr>
+          <tr><td>Gauge / bar</td><td>Expenditure rate by district (metric view)</td><td>“Show the expenditure rate by district.”
+            <details class="req"><summary>What this needs</summary><div class="req-body"><ul>
+              <li><span class="req-tag metric">Metric view</span><code>capital_program_metrics</code> — the <code>expenditure_rate</code> measure (expended ÷ net obligated).</li>
+              <li><span class="req-tag comment">Column comment</span><code>projects.dist_no</code> for district labels.</li>
+            </ul><span class="req-how">How → <a href="#metrics-fdot">Appendix A · capital_program_metrics</a> · <a href="#transport-desc">FDOT step 1</a></span></div></details></td></tr>
+          <tr><td>Table</td><td>At-risk IIJA obligations near deadline (the “money” table)</td><td>“List IIJA obligations near their deadline with project, district, authorized, obligated, unobligated, and the deadline — soonest first.”
+            <details class="req"><summary>What this needs</summary><div class="req-body"><ul>
+              <li><span class="req-tag ok">Nothing to add</span>Genie knows IIJA and filters by deadline on the raw tables. Optional: set the <code>obligations.fund_src</code> and <code>projects.dist_no</code> comments for cleaner labels.</li>
+            </ul><span class="req-how">How → <a href="#transport-desc">FDOT · Round 2 step 1</a></span></div></details></td></tr>
         </tbody>
       </table>
     </div>
     <div class="note tip"><span class="nl">Filters</span><div>district · fund source · status · fiscal year</div></div>
+  </div>
+</section>
+
+<!-- ============================ FEEDBACK ============================ -->
+<section id="feedback" class="band-alt">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Before you go</p>
+      <h2>Tell us how it went</h2>
+      <p>Two minutes, no sign-in, and only the first rating is required. Your answers shape the next session, and if you'd like help with your own agency's data, you can ask for it here.</p>
+    </div>
+    <div class="card" style="display:flex;gap:28px;align-items:center;flex-wrap:wrap;margin-top:0;">
+      <div style="background:#fff;padding:10px;border:1px solid var(--line);flex:none;"><svg viewBox="0 0 450 450" role="img" aria-label="QR code for the workshop feedback form" style="width:180px;height:180px;display:block;" xmlns="http://www.w3.org/2000/svg" class="segno"><g transform="scale(10)"><path fill="#fff" d="M0 0h45v45h-45z"/><path class="qrline" stroke="#1b3139" d="M2 2.5h7m1 0h1m2 0h2m5 0h2m7 0h2m1 0h1m1 0h1m1 0h7m-41 1h1m5 0h1m1 0h1m1 0h1m2 0h1m2 0h2m4 0h3m3 0h1m1 0h1m3 0h1m5 0h1m-41 1h1m1 0h3m1 0h1m4 0h4m1 0h1m1 0h2m5 0h2m1 0h1m3 0h1m1 0h1m1 0h3m1 0h1m-41 1h1m1 0h3m1 0h1m1 0h1m1 0h1m3 0h2m2 0h1m1 0h2m1 0h5m6 0h1m1 0h3m1 0h1m-41 1h1m1 0h3m1 0h1m2 0h1m1 0h1m1 0h1m2 0h1m1 0h3m2 0h2m3 0h3m3 0h1m1 0h3m1 0h1m-41 1h1m5 0h1m6 0h8m3 0h1m1 0h1m3 0h3m1 0h1m5 0h1m-41 1h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7m-33 1h1m2 0h3m2 0h3m1 0h1m1 0h1m6 0h1m2 0h1m-33 1h1m1 0h2m1 0h3m1 0h2m2 0h2m1 0h3m2 0h2m3 0h1m1 0h4m2 0h1m2 0h1m1 0h2m-41 1h4m3 0h1m1 0h3m1 0h3m1 0h3m3 0h1m1 0h1m2 0h1m1 0h4m1 0h2m1 0h1m1 0h1m-41 1h1m1 0h1m3 0h4m3 0h1m1 0h1m1 0h1m3 0h1m1 0h1m6 0h1m3 0h1m3 0h2m-37 1h2m2 0h5m1 0h2m1 0h1m1 0h3m3 0h2m1 0h1m4 0h3m-35 1h3m2 0h3m1 0h1m2 0h1m1 0h2m3 0h1m2 0h3m1 0h1m4 0h1m5 0h2m1 0h1m-39 1h3m2 0h1m1 0h3m2 0h3m5 0h1m1 0h1m2 0h2m2 0h1m1 0h3m1 0h1m2 0h1m-38 1h1m1 0h2m3 0h4m1 0h2m1 0h1m11 0h2m2 0h1m4 0h2m-36 1h1m3 0h1m1 0h1m2 0h3m2 0h6m2 0h1m3 0h2m1 0h4m1 0h2m-39 1h2m1 0h2m1 0h4m1 0h1m1 0h1m1 0h4m1 0h2m3 0h2m2 0h1m4 0h2m1 0h1m-40 1h1m1 0h1m6 0h2m2 0h1m3 0h1m2 0h1m3 0h4m2 0h1m1 0h2m1 0h1m1 0h2m-36 1h1m2 0h3m2 0h2m2 0h1m1 0h1m2 0h2m2 0h4m2 0h1m1 0h1m1 0h1m1 0h1m1 0h1m-39 1h2m1 0h1m6 0h4m1 0h2m2 0h1m3 0h1m3 0h1m1 0h3m1 0h3m1 0h2m1 0h1m-41 1h1m1 0h7m1 0h2m1 0h4m1 0h2m2 0h3m1 0h1m2 0h1m1 0h4m1 0h2m2 0h1m-36 1h1m1 0h1m3 0h1m3 0h2m1 0h3m4 0h1m1 0h5m1 0h5m1 0h2m-41 1h2m4 0h3m2 0h1m1 0h3m2 0h1m1 0h4m1 0h1m4 0h1m4 0h2m1 0h2m-37 1h1m1 0h1m2 0h2m2 0h1m2 0h2m2 0h1m2 0h5m1 0h1m1 0h1m1 0h2m2 0h1m2 0h1m-36 1h3m1 0h1m1 0h2m5 0h1m4 0h1m1 0h4m1 0h1m1 0h1m3 0h1m2 0h2m-38 1h2m1 0h1m1 0h1m1 0h1m1 0h2m1 0h4m1 0h1m1 0h1m2 0h1m1 0h2m1 0h1m1 0h3m1 0h1m1 0h2m-36 1h1m1 0h3m2 0h2m2 0h1m2 0h4m1 0h1m1 0h1m6 0h2m1 0h1m2 0h1m1 0h2m-41 1h2m1 0h1m1 0h1m1 0h5m2 0h3m1 0h6m2 0h1m4 0h2m2 0h3m1 0h1m-40 1h1m1 0h1m1 0h1m1 0h1m1 0h1m2 0h1m4 0h1m2 0h1m2 0h4m3 0h5m1 0h3m2 0h1m-39 1h1m4 0h4m3 0h1m2 0h3m1 0h4m2 0h1m3 0h2m1 0h2m1 0h1m-38 1h1m1 0h2m2 0h1m1 0h2m1 0h1m3 0h1m1 0h1m2 0h1m1 0h1m2 0h3m1 0h2m2 0h3m1 0h2m-36 1h1m4 0h6m3 0h2m1 0h1m1 0h1m1 0h1m2 0h3m1 0h1m2 0h1m1 0h1m1 0h1m1 0h1m-40 1h2m1 0h3m2 0h1m2 0h5m1 0h7m3 0h2m2 0h7m1 0h1m-33 1h1m1 0h1m1 0h2m4 0h1m1 0h1m1 0h3m3 0h2m1 0h2m3 0h3m1 0h1m-41 1h7m1 0h4m2 0h1m2 0h1m3 0h5m4 0h3m1 0h1m1 0h2m1 0h1m-40 1h1m5 0h1m1 0h4m1 0h4m1 0h5m1 0h2m2 0h1m1 0h1m1 0h1m3 0h1m2 0h1m-40 1h1m1 0h3m1 0h1m2 0h2m1 0h1m1 0h2m2 0h1m1 0h7m1 0h2m2 0h7m1 0h1m-41 1h1m1 0h3m1 0h1m1 0h3m1 0h2m1 0h1m2 0h2m3 0h8m1 0h1m3 0h1m3 0h1m-41 1h1m1 0h3m1 0h1m1 0h1m2 0h1m2 0h2m2 0h2m1 0h2m1 0h1m1 0h1m2 0h1m1 0h2m2 0h1m1 0h4m-41 1h1m5 0h1m3 0h1m1 0h1m1 0h5m2 0h2m3 0h2m4 0h1m3 0h2m1 0h1m-40 1h7m1 0h3m1 0h1m1 0h2m1 0h1m1 0h5m1 0h1m1 0h2m1 0h1m1 0h2m3 0h1m1 0h1"/></g></svg></div>
+      <div style="flex:1;min-width:260px;">
+        <p class="kicker">Workshop feedback</p>
+        <h3>Scan with your phone, or open the form</h3>
+        <p><a class="survey-btn" href="https://docs.google.com/forms/d/e/1FAIpQLSeFSKyHpi9F2fjOt1CXwwM28bqB_-8IE_5Wa-OHNtjziqNNfQ/viewform" target="_blank" rel="noopener">Open the feedback form →</a></p>
+        <p style="font-size:.85rem;color:var(--muted);word-break:break-all;">https://docs.google.com/forms/d/e/1FAIpQLSeFSKyHpi9F2fjOt1CXwwM28bqB_-8IE_5Wa-OHNtjziqNNfQ/viewform</p>
+      </div>
+    </div>
   </div>
 </section>
 
